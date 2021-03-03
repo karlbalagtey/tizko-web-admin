@@ -83,3 +83,7 @@ export const tizkoGetCurrentUser = () => {
         }
     })
 }
+
+export const tizkoRemoveUserFromLocalStorage = (user) => {
+    localStorage.removeItem(user);
+}

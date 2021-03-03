@@ -19,6 +19,7 @@ import {
     tizkoForgotPassword,
     tizkoResetPassword,
     tizkoValidateResetToken,
+    tizkoRemoveUserFromLocalStorage,
 } from "../../api/tizko-api-auth";
 
 export function* signInWithEmail({ payload: { email, password } }) {
@@ -43,12 +44,12 @@ export function* onEmailSignInStart() {
 
 export function* signOutUser() {
     try {
-        const user = JSON.parse(localStorage.getItem('superuser'));
-        console.log(user.jwtToken);
+        const { jwtToken } = JSON.parse(localStorage.getItem('superuser'));
+        console.log('saga: '+ jwtToken);
         
-        yield tizkoRevokeToken(user.jwtToken);
+        yield call(tizkoRevokeToken, jwtToken);
+        yield call(tizkoRemoveUserFromLocalStorage, 'superuser');
         yield put(signOutSuccess());
-        localStorage.removeItem("superuser");
     } catch (error) {
         yield put(signOutFailure(error));
     }
