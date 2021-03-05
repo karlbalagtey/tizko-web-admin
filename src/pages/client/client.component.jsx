@@ -35,14 +35,14 @@ let list = [];
 let rows = [];
 
 const ClientPage = ({ clients, getAllClients }) => {
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getAllClients();
     }, []);
 
     if (clients !== null) {
-        list.push(clients.data.data);
+        const { data } = clients;
+        list.push(data);
         rows = [...list[0]];
     }
 

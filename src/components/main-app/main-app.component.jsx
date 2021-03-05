@@ -23,7 +23,7 @@ import DrawerContainer from '../drawer/drawer.component';
 import Copyright from '../copyright/copyright.component';
 import Spinner from '../spinner/spinner.component';
 
-const StorePage = lazy(() => import('../../pages/store/store.component'));
+const StorePage = lazy(() => import('../../pages/store/store.container'));
 const StoreSignUpPage = lazy(() =>
     import('../../pages/store-sign-up/store-sign-up.container')
 );

@@ -27,11 +27,6 @@ import { appBarStyles } from './app-bar.styles';
 const AppBarContainer = ({ userSignout, isToggled }) => {
     const classes = appBarStyles();
 
-    useEffect(() => {
-        console.log(isToggled);
-
-    }, [isToggled])
-
     return (
         <AppBar
             position="absolute"
