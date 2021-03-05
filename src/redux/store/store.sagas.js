@@ -3,6 +3,8 @@ import { takeLatest, put, all, call } from 'redux-saga/effects';
 import StoreActionTypes from './store.types';
 
 import {
+    getStoreDetailsSuccess,
+    getStoreDetailsFailure,
     getAllStoresListFailure,
     getAllStoresListSuccess,
     signUpStoreSuccess,
@@ -13,6 +15,7 @@ import {
     tizkoUpdateStoreProfile,
     tizkoCreateNewStore,
     tizkoGetAllStores,
+    tizkoGetStoreDetails
 } from '../../api/tizko-api-stores';
 
 export function* signUpStore({
@@ -45,6 +48,18 @@ export function* getAllStoresList() {
     }
 }
 
+export function* getStoreDetailsPage({ payload: storeId }) {
+    try {
+        console.log(storeId);
+
+        const { data } = yield tizkoGetStoreDetails(storeId);
+        yield put(getStoreDetailsSuccess(data));
+    } catch (error) {
+        console.log(error);
+        yield put(getStoreDetailsFailure(error));
+    }
+}
+
 export function* updateStoreProfile({ payload: { userCredentials } }) {
     try {
         const res = yield tizkoUpdateStoreProfile(userCredentials);
@@ -65,6 +80,10 @@ export function* onGetAllStoresListStart() {
     yield takeLatest(StoreActionTypes.GET_ALL_STORES_LIST_START, getAllStoresList);
 }
 
+export function* onGetStoreDetailsStart() {
+    yield takeLatest(StoreActionTypes.GET_STORE_DETAILS_START, getStoreDetailsPage);
+}
+
 export function* storeSagas() {
-    yield all([call(onSignUpStoreStart), call(onGetAllStoresListStart)]);
+    yield all([call(onSignUpStoreStart), call(onGetAllStoresListStart), call(onGetStoreDetailsStart)]);
 }

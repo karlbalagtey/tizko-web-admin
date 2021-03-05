@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
@@ -12,14 +12,10 @@ import Paper from '@material-ui/core/Paper';
 
 import { selectAllClients } from '../../redux/user/user.selector';
 
-const ClientPage = ({ clients }) => {
-    useEffect(() => {
-        console.log(clients);
-    }, []);
-
-    return (
-        <TableContainer component={Paper}>
-            <Table aria-label="caption table">
+const ClientPage = ({ clients }) => (
+    <Paper square>
+        <TableContainer>
+            <Table stickyHeader aria-label="caption table">
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
@@ -30,25 +26,26 @@ const ClientPage = ({ clients }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    { clients && (
-                        clients.data.map(client => (
-                            <TableRow key={client.id}>
-                                <TableCell>{client.firstName} {client.lastName}</TableCell>
+                    {clients &&
+                        clients.data.map((client) => (
+                            <TableRow key={client.id} hover>
+                                <TableCell>
+                                    {client.firstName} {client.lastName}
+                                </TableCell>
                                 <TableCell>{client.email}</TableCell>
                                 <TableCell>{client.contactNumber}</TableCell>
                                 <TableCell>{client.role}</TableCell>
                                 <TableCell>{client.shippingAddress}</TableCell>
                             </TableRow>
-                        ))
-                    )}
+                        ))}
                     <TableRow>
                         <TableCell></TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
         </TableContainer>
-    );
-};
+    </Paper>
+);
 
 const mapStateToProps = createStructuredSelector({
     clients: selectAllClients,

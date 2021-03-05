@@ -50,3 +50,18 @@ export const tizkoGetAllStores = () => {
         }
     );
 };
+
+export const tizkoGetStoreDetails = (id) => {
+    const URL = process.env.REACT_APP_API_URL + `stores/${id}`;
+    const user = JSON.parse(localStorage.getItem('superuser'));
+
+    return axios.get(
+        URL,
+        {
+            headers: {
+                Authorization: 'Bearer ' + user.jwtToken,
+            },
+            withCredentials: true,
+        }
+    );
+};

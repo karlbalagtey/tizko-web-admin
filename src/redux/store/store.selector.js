@@ -4,7 +4,7 @@ const selectStore = (state) => state.store;
 
 export const selectCurrentStore = createSelector(
     [selectStore],
-    (store) => store.currentStore
+    (store) => store.details
 );
 
 export const selectAllStores = createSelector(
@@ -16,4 +16,9 @@ export const selectIsStoreLoading = createSelector(
     [selectStore],
     (store) => store.isLoading
     
+)
+
+export const selectAllHeadCells = createSelector(
+    [selectStore],
+    (store) => store.headCells
 )

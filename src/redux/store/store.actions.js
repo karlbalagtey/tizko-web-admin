@@ -14,6 +14,21 @@ export const getAllStoresListFailure = (error) => ({
     payload: error,
 });
 
+export const getStoreDetails = (storeId) => ({
+    type: StoreActionTypes.GET_STORE_DETAILS_START,
+    payload: storeId
+});
+
+export const getStoreDetailsSuccess = (store) => ({
+    type: StoreActionTypes.GET_STORE_DETAILS_SUCCESS,
+    payload: store,
+});
+
+export const getStoreDetailsFailure = (error) => ({
+    type: StoreActionTypes.GET_STORE_DETAILS_FAILURE,
+    payload: error,
+});
+
 export const signUpStoreStart = (storeCredentials) => ({
     type: StoreActionTypes.SIGN_UP_STORE_START,
     payload: storeCredentials,

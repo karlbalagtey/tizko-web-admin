@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -42,6 +42,8 @@ const SubscriptionPage = lazy(() =>
     import('../../pages/subscription/subscription.component')
 );
 
+const StoreDetailPage = lazy(() => import('../../pages/store-detail/store-detail.container'));
+
 const MainApp = ({ error, message, success, isToggled }) => {
     const classes = mainAppStyles();
 
@@ -73,6 +75,11 @@ const MainApp = ({ error, message, success, isToggled }) => {
                             exact
                             path="/dashboard/store"
                             component={StorePage}
+                        />
+                        <Route
+                            exact
+                            path="/dashboard/store/:storeId"
+                            component={StoreDetailPage}
                         />
                         <Route
                             exact

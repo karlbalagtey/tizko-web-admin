@@ -1,4 +1,4 @@
-import StoreActionTypes from "./store.types";
+import StoreActionTypes from './store.types';
 
 const INITIAL_STATE = {
     isLoading: false,
@@ -6,6 +6,39 @@ const INITIAL_STATE = {
     error: null,
     success: null,
     stores: null,
+    details: null,
+    headCells: [
+        {
+            id: 'storeName',
+            numeric: false,
+            disablePadding: false,
+            label: 'Store name',
+        },
+        {
+            id: 'location',
+            numeric: false,
+            disablePadding: false,
+            label: 'Location',
+        },
+        {
+            id: 'contactNumber',
+            numeric: true,
+            disablePadding: false,
+            label: 'Contact number',
+        },
+        {
+            id: 'createdAt',
+            numeric: true,
+            disablePadding: false,
+            label: 'Created',
+        },
+        {
+            id: 'updatedAt',
+            numeric: true,
+            disablePadding: false,
+            label: 'Updated',
+        },
+    ],
 };
 
 const storeReducer = (state = INITIAL_STATE, action) => {
@@ -13,27 +46,47 @@ const storeReducer = (state = INITIAL_STATE, action) => {
         case StoreActionTypes.GET_ALL_STORES_LIST_START:
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
             };
         case StoreActionTypes.GET_ALL_STORES_LIST_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 stores: action.payload,
-                message: 'Loaded list of stores'
-            }
+                message: 'Loaded list of stores',
+            };
         case StoreActionTypes.GET_ALL_STORES_LIST_FAILURE:
             return {
                 ...state,
                 isLoading: false,
                 error: action.payload,
                 message: null,
-                success: null
-            }
+                success: null,
+            };
+        case StoreActionTypes.GET_STORE_DETAILS_START:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case StoreActionTypes.GET_STORE_DETAILS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                details: action.payload,
+                message: 'Loaded store details',
+            };
+        case StoreActionTypes.GET_STORE_DETAILS_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload,
+                message: null,
+                success: null,
+            };
         case StoreActionTypes.UPDATE_STORE_PROFILE_START:
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
             };
         case StoreActionTypes.UPDATE_STORE_PROFILE_SUCCESS:
             return {
@@ -41,7 +94,7 @@ const storeReducer = (state = INITIAL_STATE, action) => {
                 isLoading: false,
                 success: action.payload,
                 message: null,
-                error: null
+                error: null,
             };
         case StoreActionTypes.UPDATE_STORE_PROFILE_FAILURE:
             return {
@@ -49,28 +102,28 @@ const storeReducer = (state = INITIAL_STATE, action) => {
                 isLoading: false,
                 error: action.payload,
                 message: null,
-                success: null
+                success: null,
             };
         case StoreActionTypes.SIGN_UP_STORE_START:
             return {
                 ...state,
-                isLoading: true
-            }
+                isLoading: true,
+            };
         case StoreActionTypes.SIGN_UP_STORE_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
-                success: "Successfully added store",
+                success: 'Successfully added store',
                 message: null,
                 error: null,
-            }
+            };
         case StoreActionTypes.SIGN_UP_STORE_FAILURE:
             return {
                 ...state,
                 isLoading: false,
                 success: null,
                 message: null,
-                error: action.payload
+                error: action.payload,
             };
         default:
             return state;
