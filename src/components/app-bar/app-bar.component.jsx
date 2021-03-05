@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import clsx from 'clsx';
 import { createStructuredSelector } from 'reselect';
@@ -7,7 +7,8 @@ import {
     Toolbar,
     IconButton,
     Badge,
-    Button
+    Button,
+    Switch
 } from '@material-ui/core';
 
 import {
@@ -24,7 +25,7 @@ import {
 
 import { appBarStyles } from './app-bar.styles';
 
-const AppBarContainer = ({ userSignout, isToggled }) => {
+const AppBarContainer = ({ userSignout, isToggled, darkState, onHandleThemeChange }) => {
     const classes = appBarStyles();
 
     return (
@@ -34,6 +35,7 @@ const AppBarContainer = ({ userSignout, isToggled }) => {
         >
             <Toolbar className={classes.toolbar}>
                 <section className={classes.marginLeft}>
+                    <Switch checked={darkState} onChange={onHandleThemeChange} />
                     <IconButton color="inherit">
                         <Badge badgeContent={4} color="secondary">
                             <NotificationsIcon />

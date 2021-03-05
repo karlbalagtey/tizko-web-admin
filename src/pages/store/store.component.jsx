@@ -75,6 +75,8 @@ const StorePage = ({ stores, headCells }) => {
     };
 
     const handleRequestSort = (event, property) => {
+        console.log(orderBy);
+        console.log(property);
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);

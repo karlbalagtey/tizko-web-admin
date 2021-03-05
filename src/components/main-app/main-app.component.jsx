@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -7,6 +7,12 @@ import clsx from 'clsx';
 import { mainAppStyles } from './main-app.styles';
 
 import { CssBaseline, Box } from '@material-ui/core';
+import {
+    MuiThemeProvider,
+    StylesProvider,
+    createMuiTheme,
+} from '@material-ui/core/styles';
+import { ThemeProvider } from 'styled-components';
 
 import AlertNotification from '../../components/alert-notification/alert-notification.component';
 
@@ -41,84 +47,114 @@ const SettingsPage = lazy(() =>
 const SubscriptionPage = lazy(() =>
     import('../../pages/subscription/subscription.component')
 );
-
-const StoreDetailPage = lazy(() => import('../../pages/store-detail/store-detail.container'));
+const StoreDetailPage = lazy(() =>
+    import('../../pages/store-detail/store-detail.container')
+);
 
 const MainApp = ({ error, message, success, isToggled }) => {
     const classes = mainAppStyles();
+    const [darkState, setDarkState] = useState(false);
+    const palletType = darkState ? 'dark' : 'light';
+    const theme = createMuiTheme({
+        palette: {
+            type: palletType,
+            secondary: {
+                main: '#007dff',
+                contrastText: '#fff',
+            },
+            primary: {
+                main: '#C15751',
+                contrastText: '#fff',
+            },
+        },
+    });
+
+    const handleThemeChange = () => {
+        setDarkState(!darkState);
+        console.log(darkState);
+    };
 
     return (
-        <div className={classes.root}>
-            <CssBaseline />
-            <AlertNotification
-                success={success}
-                message={message}
-                error={error}
-            />
-            <AppBarContainer />
-            <DrawerContainer />
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: isToggled,
-                })}
-            >
-                <div className={classes.appBarSpacer} />
+        <StylesProvider injectFirst>
+            <MuiThemeProvider theme={theme}>
+                <ThemeProvider theme={theme}>
+                    <div className={classes.root}>
+                        <CssBaseline />
+                        <AlertNotification
+                            success={success}
+                            message={message}
+                            error={error}
+                        />
+                        <AppBarContainer
+                            onHandleThemeChange={handleThemeChange}
+                            darkState={darkState}
+                        />
+                        <DrawerContainer />
+                        <main
+                            className={clsx(classes.content, {
+                                [classes.contentShift]: isToggled,
+                            })}
+                        >
+                            <div className={classes.appBarSpacer} />
 
-                <Switch>
-                    <Suspense fallback={<Spinner />}>
-                        <Route
-                            exact
-                            path="/dashboard"
-                            component={DashboardPage}
-                        />
-                        <Route
-                            exact
-                            path="/dashboard/store"
-                            component={StorePage}
-                        />
-                        <Route
-                            exact
-                            path="/dashboard/store/:storeId"
-                            component={StoreDetailPage}
-                        />
-                        <Route
-                            exact
-                            path="/dashboard/store-signup"
-                            component={StoreSignUpPage}
-                        />
-                        <Route
-                            exact
-                            path="/dashboard/client"
-                            component={ClientPage}
-                        />
-                        <Route
-                            exact
-                            path="/dashboard/client-signup"
-                            component={ClientSignUpPage}
-                        />
-                        <Route
-                            exact
-                            path="/dashboard/subscriptions"
-                            component={SubscriptionPage}
-                        />
-                        <Route
-                            exact
-                            path="/dashboard/account"
-                            component={AccountPage}
-                        />
-                        <Route
-                            exact
-                            path="/dashboard/settings"
-                            component={SettingsPage}
-                        />
-                    </Suspense>
-                </Switch>
+                            <Switch>
+                                <Suspense fallback={<Spinner />}>
+                                    <Route
+                                        exact
+                                        path="/dashboard"
+                                        component={DashboardPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/dashboard/store"
+                                        component={StorePage}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/dashboard/store/:storeId"
+                                        component={StoreDetailPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/dashboard/store-signup"
+                                        component={StoreSignUpPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/dashboard/client"
+                                        component={ClientPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/dashboard/client-signup"
+                                        component={ClientSignUpPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/dashboard/subscriptions"
+                                        component={SubscriptionPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/dashboard/account"
+                                        component={AccountPage}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/dashboard/settings"
+                                        component={SettingsPage}
+                                    />
+                                </Suspense>
+                            </Switch>
 
-                <Box pt={4}>
-                    <Copyright />
-                </Box>
-            </main>
-        </div>
+                            <Box pt={4}>
+                                <Copyright />
+                            </Box>
+                        </main>
+                    </div>
+                </ThemeProvider>
+            </MuiThemeProvider>
+        </StylesProvider>
     );
 };
 
