@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import {
+    TableHead,
+    TableRow,
+    TableCell,
+    TableSortLabel,
+    Checkbox
+} from '@material-ui/core';
 
 const EnhancedTableHead = (props) => {
     const {

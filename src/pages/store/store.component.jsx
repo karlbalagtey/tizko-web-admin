@@ -1,23 +1,21 @@
 import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-
 import { createStructuredSelector } from 'reselect';
 
 import { useStyles } from './store.styles';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import TablePagination from '@material-ui/core/TablePagination';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import {
+    TableContainer,
+    Table,
+    TableBody,
+    TablePagination,
+    Paper,
+    Switch,
+    FormControlLabel
+} from '@material-ui/core';
 
 import EnhancedTableHead from '../../components/table-head/table-head.component';
+import EnhancedTableRow from '../../components/table-row/table-row.component';
 import TableToolbar from '../../components/table-toolbar/table-toolbar.component';
 
 import {
@@ -28,7 +26,7 @@ import {
 const StorePage = ({ stores, headCells }) => {
     const classes = useStyles();
     const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('calories');
+    const [orderBy, setOrderBy] = useState('storeName');
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [selected, setSelected] = useState([]);
@@ -71,10 +69,6 @@ const StorePage = ({ stores, headCells }) => {
         }
         setSelected([]);
     };
-
-    const handleStorePage = (storeId) => {
-        alert(storeId);
-    }
 
     const handleChangeDense = (event) => {
         setDense(event.target.checked);
@@ -119,57 +113,15 @@ const StorePage = ({ stores, headCells }) => {
                                         page * rowsPerPage,
                                         page * rowsPerPage + rowsPerPage
                                     )
-                                    .map((store, index) => {
-                                        const isItemSelected = isSelected(
-                                            store.id
-                                        );
-                                        const labelId = `enhanced-table-checkbox-${index}`;
-
-                                        return (
-                                            <TableRow
-                                                hover
-                                                role="checkbox"
-                                                tabIndex={-1}
-                                                key={store.name}
-                                            >
-                                                <TableCell
-                                                    onClick={(event) =>
-                                                        handleCheckClick(
-                                                            event,
-                                                            store.id
-                                                        )
-                                                    }
-                                                    padding="checkbox"
-                                                >
-                                                    <Checkbox
-                                                        checked={isItemSelected}
-                                                        inputProps={{
-                                                            'aria-labelledby': labelId,
-                                                        }}
-                                                    />
-                                                </TableCell>
-                                                <TableCell
-                                                    component={Link}
-                                                    to={`/dashboard/store/${store.id}`}
-                                                    scope="row"
-                                                >
-                                                    {store.name}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {store.location}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {store.contactNumber}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {store.created}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {store.updated}
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
+                                    .map((store, index) => (
+                                        <EnhancedTableRow 
+                                            key={store.id}
+                                            store={store}
+                                            index={index}
+                                            onIsSelected={isSelected}
+                                            onHandleCheckClick={handleCheckClick}
+                                        />
+                                    ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
