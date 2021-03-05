@@ -51,12 +51,6 @@ const App = ({ checkUserSession, currentUser }) => {
         [prefersDarkMode]
     );
 
-    const MainAppWrap = () => (
-        <React.Fragment>
-            <MainApp />
-        </React.Fragment>
-    );
-
     return (
         <StylesProvider injectFirst>
             <MuiThemeProvider theme={theme}>

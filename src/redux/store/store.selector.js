@@ -11,3 +11,9 @@ export const selectAllStores = createSelector(
     [selectStore],
     (store) => store.stores
 );
+
+export const selectIsStoreLoading = createSelector(
+    [selectStore],
+    (store) => store.isLoading
+    
+)

@@ -1,4 +1,5 @@
 import React from 'react';
+import MenuActionTypes from "./menu.types";
 import { 
     Dashboard as DashboardIcon,
     People as PeopleIcon,
@@ -60,11 +61,17 @@ const INITIAL_STATE = {
             id: 8,
             link: '/dashboard/settings'
         }
-    ]
+    ],
+    isToggled: true
 };
 
 const menuReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case MenuActionTypes.TOGGLE_DRAWER:
+            return {
+                ...state,
+                isToggled: !state.isToggled
+            }
         default:
             return state;
     }

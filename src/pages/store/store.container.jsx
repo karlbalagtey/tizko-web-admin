@@ -2,12 +2,12 @@ import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { compose } from "redux";
 
-import { selectIsUserAccessing } from "../../redux/user/user.selector";
+import { selectIsStoreLoading } from "../../redux/store/store.selector";
 import WithSpinner from "../../components/with-spinner/with-spinner.component";
 import StorePage from "./store.component";
 
 const mapStateToProps = createStructuredSelector({
-    isLoading: state => selectIsUserAccessing(state)
+    isLoading: state => selectIsStoreLoading(state)
 });
 
 const StorePageContainer = compose(

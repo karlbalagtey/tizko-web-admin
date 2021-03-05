@@ -2,70 +2,66 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { DataGrid } from '@material-ui/data-grid';
-import { Container } from '@material-ui/core';
+import { useStyles } from './store.styles';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+import Spinner from '../../components/spinner/spinner.component';
 
 import { selectAllStores } from '../../redux/store/store.selector';
 import { getAllStoresList } from '../../redux/store/store.actions';
 
-const columns = [
-    { field: 'name', headerName: 'Store name', width: 250 },
-    { field: 'description', headerName: 'Description', width: 350 },
-    {
-        field: 'location',
-        headerName: 'Location',
-        width: 200,
-    },
-    {
-        field: 'contactNumber', headerName: 'Contact No', width: 200
-    },
-    {
-        field: 'created',
-        headerName: 'Created',
-        width: 150
-    },
-    {
-        field: 'updated',
-        headerName: 'Last updated',
-        width: 150
-    },
-];
-
-let list = [];
-let rows = [];
-
 const StorePage = ({ stores, getAllStores }) => {
+    const classes = useStyles();
+    const [storesList, setStoresList] = useState([]);
+
     useEffect(() => {
-        getAllStores();
-    }, []);
-
-    if (stores !== null) {
-        list.push(stores.data.data.data);
-        rows = [...list[0]];
-    }
-
-    const sortModel = [
-        {
-            field: 'created',
-            sort: 'desc'
+        const fetchStores = async () => {
+            console.log('first');
+            await getAllStores();
+            await setStoresList(stores);
+            console.log('second');
         }
-    ]
+        fetchStores();
+     }, [storesList]);
 
     return (
-        <Container>
-            <h1>Stores</h1>
-            <div style={{ height: 500, width: '100%' }}>
-                <DataGrid
-                    autoPageSize={true}
-                    rows={rows}
-                    columns={columns}
-                    id={'_id'}
-                    pageSize={10}
-                    sortModel={sortModel}
-                    loading={stores ? false : true}
-                />
-            </div>
-        </Container>
+        <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="caption table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Store name</TableCell>
+                        <TableCell>Description</TableCell>
+                        <TableCell>Location</TableCell>
+                        <TableCell>Contact number</TableCell>
+                        <TableCell>Created</TableCell>
+                        <TableCell>Updated</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    { storesList &&
+                        storesList.map((store) => (
+                            <TableRow key={store.name}>
+                                <TableCell component="th" scope="row">
+                                    {store.name}
+                                </TableCell>
+                                <TableCell>{store.description}</TableCell>
+                                <TableCell>{store.location}</TableCell>
+                                <TableCell>{store.contactNumber}</TableCell>
+                                <TableCell>{store.created}</TableCell>
+                                <TableCell>{store.updated}</TableCell>
+                            </TableRow>
+                        ))
+                    }
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };
 

@@ -1,31 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
-const mainAppStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    },
-    appBarSpacer: theme.mixins.toolbar,
-    content: {
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
-    },
-    contentShift: {
-        marginLeft: '240px'
-    },
-    container: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(4),
-    },
-    fixedHeight: {
-        height: 240,
-    },
+const drawerStyles = makeStyles((theme) => ({
     toolbarIcon: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-end',
         padding: '0 8px',
+        backgroundColor: '#c15751',
         ...theme.mixins.toolbar,
     },
     drawerPaper: {
@@ -43,11 +25,15 @@ const mainAppStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        width: theme.spacing(7),
+        width: 'theme.spacing(7)',
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
+            width: theme.spacing(8),
         },
+    },
+    title: {
+        flexGrow: 1,
+        marginLeft: '10px'
     },
 }));
 
-export { mainAppStyles };
+export { drawerStyles };

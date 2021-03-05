@@ -37,8 +37,8 @@ export function* onSignUpStoreStart() {
 
 export function* getAllStoresList() {
     try {
-        const data = yield tizkoGetAllStores();
-        yield put(getAllStoresListSuccess({ data }));
+        const { data } = yield tizkoGetAllStores();
+        yield put(getAllStoresListSuccess(data));
     } catch (error) {
         console.log(error);
         yield put(getAllStoresListFailure(error));
