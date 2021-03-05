@@ -25,7 +25,7 @@ export const selectIsUserSubmitting = createSelector(
 
 export const selectIsUserAccessing = createSelector(
     [selectUser],
-    (user) => user.isSubmitting
+    (user) => user.isLoading
 );
 
 export const selectAlertNotificationsMessage = createSelector(

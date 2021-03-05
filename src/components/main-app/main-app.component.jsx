@@ -33,7 +33,7 @@ const DashboardPage = lazy(() =>
 const ClientSignUpPage = lazy(() =>
     import('../../pages/client-sign-up/client-sign-up.container')
 );
-const ClientPage = lazy(() => import('../../pages/client/client.component'));
+const ClientPage = lazy(() => import('../../pages/client/client.container'));
 const AccountPage = lazy(() => import('../../pages/account/account.component'));
 const SettingsPage = lazy(() =>
     import('../../pages/settings/settings.component')

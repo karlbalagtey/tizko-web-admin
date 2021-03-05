@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const drawerWidth = 240;
 const appBarStyles = makeStyles((theme) => ({
     appBar: {
+        width: `calc(100% - 64px)`,
         zIndex: theme.zIndex.drawer,
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,

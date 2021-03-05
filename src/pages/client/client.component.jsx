@@ -2,80 +2,56 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-import { DataGrid } from '@material-ui/data-grid';
-import { Container } from '@material-ui/core';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 import { selectAllClients } from '../../redux/user/user.selector';
-import { getAllClientsList } from '../../redux/user/user.actions';
 
-const columns = [
-    { field: 'firstName', headerName: 'First name', width: 150 },
-    { field: 'lastName', headerName: 'Last name', width: 150 },
-    {
-        field: 'email',
-        headerName: 'Email',
-        width: 200,
-    },
-    {
-        field: 'contactNumber', headerName: 'Contact No', width: 200
-    },
-    {
-        field: 'created',
-        headerName: 'Created',
-        width: 150
-    },
-    {
-        field: 'updated',
-        headerName: 'Last updated',
-        width: 150
-    },
-];
-
-let list = [];
-let rows = [];
-
-const ClientPage = ({ clients, getAllClients }) => {
-
+const ClientPage = ({ clients }) => {
     useEffect(() => {
-        getAllClients();
+        console.log(clients);
     }, []);
 
-    if (clients !== null) {
-        const { data } = clients;
-        list.push(data);
-        rows = [...list[0]];
-    }
-
-    const sortModel = [
-        {
-            field: 'created',
-            sort: 'desc'
-        }
-    ]
-
     return (
-        <Container>
-            <h1>Clients</h1>
-            <div style={{ height: 400, width: '100%' }}>
-                <DataGrid
-                    autoPageSize={true}
-                    rows={rows}
-                    columns={columns}
-                    pageSize={10}
-                    sortModel={sortModel}
-                    loading={clients ? false : true}
-                />
-            </div>
-        </Container>
+        <TableContainer component={Paper}>
+            <Table aria-label="caption table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Contact number</TableCell>
+                        <TableCell>Role</TableCell>
+                        <TableCell>Company address</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    { clients && (
+                        clients.data.map(client => (
+                            <TableRow key={client.id}>
+                                <TableCell>{client.firstName} {client.lastName}</TableCell>
+                                <TableCell>{client.email}</TableCell>
+                                <TableCell>{client.contactNumber}</TableCell>
+                                <TableCell>{client.role}</TableCell>
+                                <TableCell>{client.shippingAddress}</TableCell>
+                            </TableRow>
+                        ))
+                    )}
+                    <TableRow>
+                        <TableCell></TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };
-
-const mapDispatchToProps = (dispatch) => ({
-    getAllClients: (userToken) => dispatch(getAllClientsList(userToken)),
-});
 
 const mapStateToProps = createStructuredSelector({
     clients: selectAllClients,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClientPage);
+export default connect(mapStateToProps, null)(ClientPage);

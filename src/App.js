@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -10,11 +10,8 @@ import { createStructuredSelector } from 'reselect';
 
 import { CssBaseline } from '@material-ui/core';
 
-import SignInPage from './pages/sign-in/sign-in.container';
-import ResetPassword from './pages/reset-password/reset-password.component';
-
-import MainApp from './components/main-app/main-app.component';
-import PageNotFound from './pages/page-not-found/page-not-found.component';
+import ErrorBoundary from './components/error-boundary/error-boundary.component';
+import Spinner from './components/spinner/spinner.component';
 
 import { selectCurrentUser } from './redux/auth/auth.selector';
 import { checkUserSession } from './redux/auth/auth.actions';
@@ -26,6 +23,12 @@ import {
     createMuiTheme,
 } from '@material-ui/core/styles';
 import { ThemeProvider } from 'styled-components';
+
+const SignInPage = lazy(() => import('./pages/sign-in/sign-in.container'));
+const ResetPassword = lazy(() =>
+    import('./pages/reset-password/reset-password.component')
+);
+const MainApp = lazy(() => import('./components/main-app/main-app.component'));
 
 const App = ({ checkUserSession, currentUser }) => {
     useEffect(() => {
@@ -58,32 +61,35 @@ const App = ({ checkUserSession, currentUser }) => {
                     <Router>
                         <CssBaseline />
                         <Switch>
-                            <Route
-                                exact
-                                path="/"
-                                render={() =>
-                                    currentUser ? (
-                                        <Redirect to="/dashboard" />
-                                    ) : (
-                                        <SignInPage />
-                                    )
-                                }
-                            />
-                            <Route
-                                path="/reset-password/:token"
-                                component={ResetPassword}
-                            />
-                            <Route
-                                path="/dashboard"
-                                render={() =>
-                                    currentUser ? (
-                                        <MainApp />
-                                    ) : (
-                                        <SignInPage />
-                                    )
-                                }
-                            />
-                            <Route component={PageNotFound} />
+                            <ErrorBoundary>
+                                <Suspense fallback={<Spinner />}>
+                                    <Route
+                                        exact
+                                        path="/"
+                                        render={() =>
+                                            currentUser ? (
+                                                <Redirect to="/dashboard" />
+                                            ) : (
+                                                <SignInPage />
+                                            )
+                                        }
+                                    />
+                                    <Route
+                                        path="/reset-password/:token"
+                                        component={ResetPassword}
+                                    />
+                                    <Route
+                                        path="/dashboard"
+                                        render={() =>
+                                            currentUser ? (
+                                                <MainApp />
+                                            ) : (
+                                                <SignInPage />
+                                            )
+                                        }
+                                    />
+                                </Suspense>
+                            </ErrorBoundary>
                         </Switch>
                     </Router>
                 </ThemeProvider>

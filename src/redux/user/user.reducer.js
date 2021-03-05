@@ -3,6 +3,7 @@ import UserActionTypes from "./user.types";
 const INITIAL_STATE = {
     currentUser: null,
     isSubmitting: false,
+    isLoading: false,
     message: null,
     error: null,
     success: null,
@@ -15,19 +16,19 @@ const userReducer = (state = INITIAL_STATE, action) => {
         case UserActionTypes.GET_ALL_CLIENTS_LIST_START:
             return {
                 ...state,
-                isSubmitting: true
+                isLoading: true
             };
         case UserActionTypes.GET_ALL_CLIENTS_LIST_SUCCESS:
             return {
                 ...state,
-                isSubmitting: false,
+                isLoading: false,
                 clients: action.payload,
                 message: 'Loaded list of clients'
             }
         case UserActionTypes.GET_ALL_CLIENTS_LIST_FAILURE:
             return {
                 ...state,
-                isSubmitting: false,
+                isLoading: false,
                 error: action.payload,
                 message: null,
                 success: null

@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { drawerStyles } from './drawer.styles';
 import clsx from 'clsx';
 
@@ -27,6 +27,7 @@ import { ChevronRight as ChevronRightIcon } from '@material-ui/icons';
 
 const DrawerContainer = ({ mainMenu, toggleMenuDrawer, isToggled }) => {
     const classes = drawerStyles();
+    const { pathname } = useLocation();
 
     return (
         <Drawer
@@ -61,6 +62,7 @@ const DrawerContainer = ({ mainMenu, toggleMenuDrawer, isToggled }) => {
                         component={Link}
                         to={menu.link}
                         key={menu.id}
+                        selected={pathname === menu.link ? true : false}
                     >
                         <ListItemIcon>{menu.icon}</ListItemIcon>
                         <ListItemText primary={menu.title} />

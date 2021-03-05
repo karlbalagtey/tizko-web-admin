@@ -47,7 +47,7 @@ export function* updateUserProfile({ payload: { userCredentials } }) {
 export function* getAllClientsList() {
     try {
         const { data } = yield tizkoGetAllClients();
-        yield put(getAllClientsListSuccess({ data }));
+        yield put(getAllClientsListSuccess(data));
     } catch (error) {
         console.log(error);
         yield put(getAllClientsListError(error));

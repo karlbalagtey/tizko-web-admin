@@ -14,8 +14,6 @@
     "babel-plugin-transform-imports": "^2.0.0",
     "clsx": "^1.1.1",
     "customize-cra": "^1.0.0",
-    "firebase": "^7.17.2",
-    "firebase-admin": "^9.1.0",
     "fontsource-roboto": "^2.2.3",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
