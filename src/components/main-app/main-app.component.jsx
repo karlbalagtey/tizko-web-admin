@@ -7,20 +7,7 @@ import clsx from 'clsx';
 import { mainAppStyles } from './main-app.styles';
 
 import { CssBaseline, Box } from '@material-ui/core';
-import {
-    MuiThemeProvider,
-    StylesProvider,
-    createMuiTheme,
-} from '@material-ui/core/styles';
-import { ThemeProvider } from 'styled-components';
-
-import AlertNotification from '../../components/alert-notification/alert-notification.component';
-
-import {
-    selectAlertNotificationsSuccess,
-    selectAlertNotificationsMessage,
-    selectAlertNotificationsError,
-} from '../../redux/user/user.selector';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import { selectIsMenuToggled } from '../../redux/menu/menu.selector';
 
@@ -51,7 +38,7 @@ const StoreDetailPage = lazy(() =>
     import('../../pages/store-detail/store-detail.container')
 );
 
-const MainApp = ({ error, message, success, isToggled }) => {
+const MainApp = ({ isToggled }) => {
     const classes = mainAppStyles();
     const [darkState, setDarkState] = useState(false);
     const palletType = darkState ? 'dark' : 'light';
@@ -71,97 +58,89 @@ const MainApp = ({ error, message, success, isToggled }) => {
 
     const handleThemeChange = () => {
         setDarkState(!darkState);
-        console.log(darkState);
     };
 
     return (
-        <StylesProvider injectFirst>
-            <MuiThemeProvider theme={theme}>
-                <ThemeProvider theme={theme}>
-                    <div className={classes.root}>
-                        <CssBaseline />
-                        <AlertNotification
-                            success={success}
-                            message={message}
-                            error={error}
-                        />
-                        <AppBarContainer
-                            onHandleThemeChange={handleThemeChange}
-                            darkState={darkState}
-                        />
-                        <DrawerContainer />
-                        <main
-                            className={clsx(classes.content, {
-                                [classes.contentShift]: isToggled,
-                            })}
-                        >
-                            <div className={classes.appBarSpacer} />
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <div className={classes.root}>
+                <AppBarContainer
+                    onHandleThemeChange={handleThemeChange}
+                    darkState={darkState}
+                />
+                <DrawerContainer />
+                <main
+                    className={clsx(classes.content, {
+                        [classes.contentShift]: isToggled,
+                    })}
+                >
+                    <div className={classes.appBarSpacer} />
 
-                            <Switch>
-                                <Suspense fallback={<Spinner />}>
-                                    <Route
-                                        exact
-                                        path="/dashboard"
-                                        component={DashboardPage}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/dashboard/store"
-                                        component={StorePage}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/dashboard/store/:storeId"
-                                        component={StoreDetailPage}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/dashboard/store-signup"
-                                        component={StoreSignUpPage}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/dashboard/client"
-                                        component={ClientPage}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/dashboard/client-signup"
-                                        component={ClientSignUpPage}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/dashboard/subscriptions"
-                                        component={SubscriptionPage}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/dashboard/account"
-                                        component={AccountPage}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/dashboard/settings"
-                                        component={SettingsPage}
-                                    />
-                                </Suspense>
-                            </Switch>
+                    <Switch>
+                        <Suspense fallback={<Spinner />}>
+                            <Route
+                                exact
+                                path="/dashboard"
+                                component={DashboardPage}
+                            />
+                            <Route
+                                exact
+                                path="/dashboard/store"
+                                component={StorePage}
+                            />
+                            <Route
+                                exact
+                                path="/store/search/:keyboard"
+                                component={StorePage}
+                            />
+                            <Route
+                                exact
+                                path="/dashboard/store/:storeId"
+                                component={StoreDetailPage}
+                            />
+                            <Route
+                                exact
+                                path="/dashboard/store-signup"
+                                component={StoreSignUpPage}
+                            />
+                            <Route
+                                exact
+                                path="/dashboard/client"
+                                component={ClientPage}
+                            />
+                            <Route
+                                exact
+                                path="/dashboard/client-signup"
+                                component={ClientSignUpPage}
+                            />
+                            <Route
+                                exact
+                                path="/dashboard/subscriptions"
+                                component={SubscriptionPage}
+                            />
+                            <Route
+                                exact
+                                path="/dashboard/account"
+                                component={AccountPage}
+                            />
+                            <Route
+                                exact
+                                path="/dashboard/settings"
+                                component={SettingsPage}
+                            />
+                        </Suspense>
+                    </Switch>
 
-                            <Box pt={4}>
-                                <Copyright />
-                            </Box>
-                        </main>
-                    </div>
-                </ThemeProvider>
-            </MuiThemeProvider>
-        </StylesProvider>
+                    <Box pt={4}>
+                        <Copyright />
+                    </Box>
+                </main>
+            </div>
+        </ThemeProvider>
     );
 };
 
 const mapStateToProps = createStructuredSelector({
-    message: selectAlertNotificationsMessage,
-    error: selectAlertNotificationsError,
-    success: selectAlertNotificationsSuccess,
     isToggled: selectIsMenuToggled,
 });
 

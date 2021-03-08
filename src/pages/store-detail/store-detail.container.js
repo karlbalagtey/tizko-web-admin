@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from "reselect";
@@ -16,9 +16,9 @@ const StoreDetailWrap = ({ getStoreDetailsInfo, isLoading }) => {
     }, []);
 
     return (
-        <Fragment>
+        <>
             { isLoading ? <Spinner /> : <StoreDetailPage /> }        
-        </Fragment>
+        </>
     )
 }
 

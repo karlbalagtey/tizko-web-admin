@@ -7,6 +7,7 @@ import {
     FormControlLabel,
     Checkbox,
 } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 
 import {
     emailSignInStart
@@ -29,6 +30,7 @@ const SignIn = ({ emailSignInStart, message, error, success }) => {
         password: '',
     });
     const { email, password } = userCredentials;
+    const theme = useTheme();
 
     const handleSubmitSignIn = async (event) => {
         event.preventDefault();
@@ -46,9 +48,9 @@ const SignIn = ({ emailSignInStart, message, error, success }) => {
         <SignInContainer>
             <AlertNotification success={success} message={message} error={error} />
             <img src={logo} alt="Easy Goody Logo" />
-            <SignInTitle>Tizko</SignInTitle>
+            <SignInTitle theme={theme}>Tizko</SignInTitle>
 
-            <FormContainer onSubmit={handleSubmitSignIn}>
+            <FormContainer onSubmit={handleSubmitSignIn} theme={theme}>
                 <TextField
                     variant="outlined"
                     margin="normal"

@@ -1,4 +1,4 @@
-import React, { useEffect, lazy, Suspense } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import ErrorBoundary from './components/error-boundary/error-boundary.component';
 import Spinner from './components/spinner/spinner.component';
@@ -25,36 +27,51 @@ const App = ({ checkUserSession, currentUser }) => {
         checkUserSession();
     }, [checkUserSession]);
 
+    const theme = createMuiTheme({
+        palette: {
+            secondary: {
+                main: '#007dff',
+                contrastText: '#fff',
+            },
+            primary: {
+                main: '#C15751',
+                contrastText: '#fff',
+            },
+        },
+    });
+
     return (
-        <Router>
-            <Switch>
-                <ErrorBoundary>
-                    <Suspense fallback={<Spinner />}>
-                        <Route
-                            exact
-                            path="/"
-                            render={() =>
-                                currentUser ? (
-                                    <Redirect to="/dashboard" />
-                                ) : (
-                                    <SignInPage />
-                                )
-                            }
-                        />
-                        <Route
-                            path="/reset-password/:token"
-                            component={ResetPassword}
-                        />
-                        <Route
-                            path="/dashboard"
-                            render={() =>
-                                currentUser ? <MainApp /> : <SignInPage />
-                            }
-                        />
-                    </Suspense>
-                </ErrorBoundary>
-            </Switch>
-        </Router>
+        <ThemeProvider theme={theme}>
+            <Router>
+                <Switch>
+                    <ErrorBoundary>
+                        <Suspense fallback={<Spinner />}>
+                            <Route
+                                exact
+                                path="/"
+                                render={() =>
+                                    currentUser ? (
+                                        <Redirect to="/dashboard" />
+                                    ) : (
+                                        <SignInPage />
+                                    )
+                                }
+                            />
+                            <Route
+                                path="/reset-password/:token"
+                                component={ResetPassword}
+                            />
+                            <Route
+                                path="/dashboard"
+                                render={() =>
+                                    currentUser ? <MainApp /> : <SignInPage />
+                                }
+                            />
+                        </Suspense>
+                    </ErrorBoundary>
+                </Switch>
+            </Router>
+        </ThemeProvider>
     );
 };
 

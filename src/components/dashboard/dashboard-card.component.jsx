@@ -20,7 +20,7 @@ const DashboardCard = ({ title, total }) => {
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
-        <Paper className={fixedHeightPaper}>
+        <Paper className={fixedHeightPaper} square elevation={0} variant="outlined">
             <Typography component="h2" variant="h6" gutterBottom>
                 {title}
             </Typography>

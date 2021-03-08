@@ -6,5 +6,8 @@ export const useStyles = makeStyles((theme) => ({
     },
     linkText: {
         textDecoration: 'none'
+    },
+    buttonLeft: {
+        textAlign: 'left'
     }
 }));

@@ -1,4 +1,4 @@
-import AuthActionTypes from "./auth.types";
+import AuthActionTypes from './auth.types';
 
 const INITIAL_STATE = {
     currentUser: null,
@@ -14,7 +14,13 @@ const authReducer = (state = INITIAL_STATE, action) => {
         case AuthActionTypes.CHECK_USER_SESSION:
             return {
                 ...state,
-                isSubmitting: true
+                isSubmitting: true,
+            };
+        case AuthActionTypes.AUTHENTICATED:
+            return {
+                ...state,
+                isAuthenticated: true,
+                isSubmitting: false,
             };
         case AuthActionTypes.NO_USER_FOUND:
             return {
@@ -28,7 +34,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
         case AuthActionTypes.EMAIL_SIGN_IN_START:
             return {
                 ...state,
-                isSubmitting: true
+                isSubmitting: true,
             };
         case AuthActionTypes.SIGN_IN_SUCCESS:
             return {
@@ -43,7 +49,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
         case AuthActionTypes.SIGN_OUT_START:
             return {
                 ...state,
-                isSubmitting: true
+                isSubmitting: true,
             };
         case AuthActionTypes.SIGN_OUT_SUCCESS:
             return {
@@ -58,7 +64,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
         case AuthActionTypes.FORGOT_PASSWORD_START:
             return {
                 ...state,
-                isSubmitting: true
+                isSubmitting: true,
             };
         case AuthActionTypes.FORGOT_PASSWORD_SUCCESS:
             return {
@@ -66,12 +72,12 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 message: null,
                 error: null,
                 success: action.payload,
-                isSubmitting: false
+                isSubmitting: false,
             };
         case AuthActionTypes.RESET_PASSWORD_START:
             return {
                 ...state,
-                isSubmitting: true
+                isSubmitting: true,
             };
         case AuthActionTypes.RESET_PASSWORD_SUCCESS:
             return {
@@ -79,12 +85,12 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 message: null,
                 error: null,
                 success: action.payload,
-                isSubmitting: false
+                isSubmitting: false,
             };
         case AuthActionTypes.VALIDATE_TOKEN_START:
             return {
                 ...state,
-                isSubmitting: true
+                isSubmitting: true,
             };
         case AuthActionTypes.VALIDATE_TOKEN_SUCCESS:
             return {
@@ -92,7 +98,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isSubmitting: false,
                 success: action.payload,
                 message: null,
-                error: null
+                error: null,
             };
         case AuthActionTypes.VALIDATE_TOKEN_FAILURE:
             return {
@@ -100,12 +106,12 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isSubmitting: false,
                 error: action.payload,
                 message: null,
-                success: null
+                success: null,
             };
         case AuthActionTypes.UPDATE_USER_PROFILE_START:
             return {
                 ...state,
-                isSubmitting: true
+                isSubmitting: true,
             };
         case AuthActionTypes.UPDATE_USER_PROFILE_SUCCESS:
             return {
@@ -113,7 +119,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isSubmitting: false,
                 success: action.payload,
                 message: null,
-                error: null
+                error: null,
             };
         case AuthActionTypes.UPDATE_USER_PROFILE_FAILURE:
             return {
@@ -121,7 +127,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isSubmitting: false,
                 error: action.payload,
                 message: null,
-                success: null
+                success: null,
             };
         case AuthActionTypes.SIGN_IN_FAILURE:
         case AuthActionTypes.SIGN_OUT_FAILURE:
@@ -131,7 +137,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 isSubmitting: false,
                 success: null,
                 message: null,
-                error: action.payload
+                error: action.payload,
             };
         default:
             return state;

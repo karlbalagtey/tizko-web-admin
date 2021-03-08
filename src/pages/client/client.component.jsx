@@ -29,7 +29,7 @@ const ClientPage = ({ clients }) => (
                 </TableHead>
                 <TableBody>
                     {clients &&
-                        clients.data.map((client) => (
+                        clients.results.map((client) => (
                             <TableRow key={client.id} hover>
                                 <TableCell>
                                     {client.firstName} {client.lastName}

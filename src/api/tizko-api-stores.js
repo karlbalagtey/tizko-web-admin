@@ -1,8 +1,9 @@
 import axios from 'axios';
+import tizkoApiToken from './tizko-api-token';
 
 export const tizkoCreateNewStore = ( name, description, contactNumber, location  ) => {
     const URL = process.env.REACT_APP_API_URL + 'stores';
-    const user = JSON.parse(localStorage.getItem('superuser'));
+    const token = tizkoApiToken.getToken();
 
     return axios.post(URL, {
         location: location,
@@ -11,7 +12,7 @@ export const tizkoCreateNewStore = ( name, description, contactNumber, location 
         name: name,
     }, {
         headers: {
-            Authorization: 'Bearer ' + user.jwtToken
+            Authorization: 'Bearer ' + token
         },
         withCredentials: true
     });
@@ -19,7 +20,7 @@ export const tizkoCreateNewStore = ( name, description, contactNumber, location 
 
 export const tizkoUpdateStoreProfile = (storeId, name, description) => {
     const URL = process.env.REACT_APP_API_URL + `stores/${storeId}`;
-    const user = JSON.parse(localStorage.getItem('superuser'));
+    const token = tizkoApiToken.getToken();
 
     return axios.put(
         URL,
@@ -29,22 +30,29 @@ export const tizkoUpdateStoreProfile = (storeId, name, description) => {
         },
         {
             headers: {
-                Authorization: 'Bearer ' + user.jwtToken,
+                Authorization: 'Bearer ' + token,
             },
             withCredentials: true,
         }
     );
 };
 
-export const tizkoGetAllStores = () => {
+export const tizkoGetAllStores = (query) => {
     const URL = process.env.REACT_APP_API_URL + 'stores';
-    const user = JSON.parse(localStorage.getItem('superuser'));
+    const token = tizkoApiToken.getToken();
+
+    console.log(query);
+    
+    // const params = {
+    //     page: query.page,
+    //     limit: query.limit
+    // }
 
     return axios.get(
-        URL,
+        URL,{ ...query},
         {
             headers: {
-                Authorization: 'Bearer ' + user.jwtToken,
+                Authorization: 'Bearer ' + token,
             },
             withCredentials: true,
         }
@@ -53,13 +61,28 @@ export const tizkoGetAllStores = () => {
 
 export const tizkoGetStoreDetails = (id) => {
     const URL = process.env.REACT_APP_API_URL + `stores/${id}`;
-    const user = JSON.parse(localStorage.getItem('superuser'));
+    const token = tizkoApiToken.getToken();
 
     return axios.get(
         URL,
         {
             headers: {
-                Authorization: 'Bearer ' + user.jwtToken,
+                Authorization: 'Bearer ' + token,
+            },
+            withCredentials: true,
+        }
+    );
+};
+
+export const tizkoSearchForStores = (term) => {
+    const URL = process.env.REACT_APP_API_URL + `stores/search/${term}`;
+    const token = tizkoApiToken.getToken();
+
+    return axios.get(
+        URL,
+        {
+            headers: {
+                Authorization: 'Bearer ' + token,
             },
             withCredentials: true,
         }

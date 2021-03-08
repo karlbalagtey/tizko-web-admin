@@ -1,19 +1,23 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import { useStyles } from './store.styles';
 
 import {
+    Container,
     TableContainer,
     Table,
+    TableRow,
+    TableCell,
     TableBody,
     TablePagination,
     Paper,
     Switch,
-    FormControlLabel
+    FormControlLabel,
 } from '@material-ui/core';
 
+import Spinner from '../../components/spinner/spinner.component';
 import EnhancedTableHead from '../../components/table-head/table-head.component';
 import EnhancedTableRow from '../../components/table-row/table-row.component';
 import TableToolbar from '../../components/table-toolbar/table-toolbar.component';
@@ -21,25 +25,29 @@ import TableToolbar from '../../components/table-toolbar/table-toolbar.component
 import {
     selectAllStores,
     selectAllHeadCells,
+    selectIsStoreLoading,
 } from '../../redux/store/store.selector';
 
-const StorePage = ({ stores, headCells }) => {
+import {
+    getComparator,
+    stableSort,
+} from '../../components/utils/utils.component';
+
+const StorePage = ({
+    page,
+    rowsPerPage,
+    order,
+    orderBy,
+    stores,
+    headCells,
+    isLoading,
+    onHandleChangePage,
+    onHandleChangeRowsPerPage,
+    onHandleRequestSort,
+}) => {
     const classes = useStyles();
-    const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('storeName');
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
     const [selected, setSelected] = useState([]);
     const [dense, setDense] = useState(false);
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
 
     const handleCheckClick = (event, name) => {
         const selectedIndex = selected.indexOf(name);
@@ -74,18 +82,11 @@ const StorePage = ({ stores, headCells }) => {
         setDense(event.target.checked);
     };
 
-    const handleRequestSort = (event, property) => {
-        console.log(orderBy);
-        console.log(property);
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-    };
-
     const isSelected = (name) => selected.indexOf(name) !== -1;
+    const storeCount = stores ? stores.totalResults : 0;
 
     return (
-        <Fragment>
+        <Container disableGutters={true}>
             <Paper square>
                 <TableToolbar numSelected={selected.length} />
                 <TableContainer>
@@ -95,49 +96,57 @@ const StorePage = ({ stores, headCells }) => {
                         size={dense ? 'small' : 'medium'}
                         aria-label="enhanced table"
                     >
-                        {stores && (
-                            <EnhancedTableHead
-                                classes={classes}
-                                numSelected={selected.length}
-                                order={order}
-                                orderBy={orderBy}
-                                onSelectAllClick={handleSelectAllClick}
-                                onRequestSort={handleRequestSort}
-                                rowCount={stores.count}
-                                headCells={headCells}
-                            />
-                        )}
+                        <EnhancedTableHead
+                            classes={classes}
+                            numSelected={selected.length}
+                            order={order}
+                            orderBy={orderBy}
+                            onSelectAllClick={handleSelectAllClick}
+                            onRequestSort={onHandleRequestSort}
+                            rowCount={storeCount}
+                            headCells={headCells}
+                        />
 
                         <TableBody>
-                            {stores &&
-                                stores.data
+                            {stores && !isLoading ? (
+                                stableSort(
+                                    stores.results,
+                                    getComparator(order, orderBy)
+                                )
                                     .slice(
                                         page * rowsPerPage,
                                         page * rowsPerPage + rowsPerPage
                                     )
                                     .map((store, index) => (
-                                        <EnhancedTableRow 
+                                        <EnhancedTableRow
                                             key={store.id}
                                             store={store}
                                             index={index}
                                             onIsSelected={isSelected}
-                                            onHandleCheckClick={handleCheckClick}
+                                            onHandleCheckClick={
+                                                handleCheckClick
+                                            }
                                         />
-                                    ))}
+                                    ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={6}>
+                                        <Spinner />
+                                    </TableCell>
+                                </TableRow>
+                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {stores && (
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 20, 50, 100]}
-                        component="div"
-                        count={stores.count}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
-                    />
-                )}
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 20, 50, 100]}
+                    component="div"
+                    count={storeCount}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={onHandleChangePage}
+                    onChangeRowsPerPage={onHandleChangeRowsPerPage}
+                />
             </Paper>
             <FormControlLabel
                 className={classes.denseSwitch}
@@ -146,13 +155,14 @@ const StorePage = ({ stores, headCells }) => {
                 }
                 label="Dense padding"
             />
-        </Fragment>
+        </Container>
     );
 };
 
 const mapStateToProps = createStructuredSelector({
     stores: selectAllStores,
     headCells: selectAllHeadCells,
+    isLoading: (state) => selectIsStoreLoading(state),
 });
 
 export default connect(mapStateToProps, null)(StorePage);

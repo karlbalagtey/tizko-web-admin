@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 import { TableRow, TableCell, Checkbox, Button } from '@material-ui/core';
 import { useStyles } from './table-row.styles';
@@ -19,7 +20,7 @@ const EnhancedTableRow = ({
     };
 
     return (
-        <TableRow hover role="checkbox" tabIndex={-1}>
+        <TableRow role="checkbox" tabIndex={-1}>
             <TableCell
                 onClick={(event) => setHandleCheckClick(event, store.id)}
                 padding="checkbox"
@@ -33,15 +34,15 @@ const EnhancedTableRow = ({
             </TableCell>
             <TableCell scope="row">
                 <Link to={`/dashboard/store/${store.id}`} className={classes.linkText}>
-                    <Button color="primary" size="large">
+                    <Button color="primary" size="large" className={classes.buttonLeft}>
                         {store.name}
                     </Button>
                 </Link>
             </TableCell>
             <TableCell>{store.location}</TableCell>
             <TableCell>{store.contactNumber}</TableCell>
-            <TableCell>{store.created}</TableCell>
-            <TableCell>{store.updated}</TableCell>
+            <TableCell>{moment(store.created).format('ll')}</TableCell>
+            <TableCell>{moment(store.updated).fromNow()}</TableCell>
         </TableRow>
     );
 };

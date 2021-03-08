@@ -7,7 +7,7 @@ const drawerStyles = makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'flex-end',
         padding: '0 8px',
-        backgroundColor: '#c15751',
+        backgroundColor: theme.palette.primary.main,
         ...theme.mixins.toolbar,
     },
     drawerPaper: {

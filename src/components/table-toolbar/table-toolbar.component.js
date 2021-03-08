@@ -1,17 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
+import {
+    Toolbar,
+    Typography,
+    IconButton,
+    Tooltip,
+} from '@material-ui/core';
+
+import ArchiveIcon from '@material-ui/icons/Archive';
 import SendIcon from '@material-ui/icons/Send';
 import PageviewIcon from '@material-ui/icons/Pageview';
 import PrintIcon from '@material-ui/icons/Print';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
-import clsx from 'clsx';
+import SearchInput from '../../components/search-input/search-input.component';
 
 import { useToolbarStyles } from './table-toolbar.styles';
 
@@ -35,18 +40,13 @@ const TableToolbar = (props) => {
                     {numSelected} selected
                 </Typography>
             ) : (
-                <Typography
-                    className={classes.title}
-                    variant="h6"
-                    id="tableTitle"
-                    component="div"
-                >
-                    Stores
-                </Typography>
+                <>
+                    <SearchInput />
+                </>
             )}
 
             {numSelected > 1 ? (
-                <Fragment>
+                <>
                     <Tooltip title="Send email">
                         <IconButton aria-label="send">
                             <SendIcon />
@@ -57,9 +57,9 @@ const TableToolbar = (props) => {
                             <PrintIcon />
                         </IconButton>
                     </Tooltip>
-                </Fragment>
+                </>
             ) : numSelected === 1 ? (
-                <Fragment>
+                <>
                     <Tooltip title="View page">
                         <IconButton aria-label="pageview">
                             <PageviewIcon />
@@ -75,12 +75,12 @@ const TableToolbar = (props) => {
                             <PrintIcon />
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Delete">
-                        <IconButton aria-label="delete">
-                            <DeleteIcon />
+                    <Tooltip title="Archive">
+                        <IconButton aria-label="archive">
+                            <ArchiveIcon />
                         </IconButton>
                     </Tooltip>
-                </Fragment>
+                </>
             ) : (
                 <Tooltip title="Filter list">
                     <IconButton aria-label="filter list">
@@ -96,4 +96,8 @@ TableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
 };
 
-export default TableToolbar;
+// const mapDispatchToProps = dispatch => ({
+//     searchStores: () => dispatch(searchStoresTerm())
+// });
+
+export default connect(null, null)(TableToolbar);

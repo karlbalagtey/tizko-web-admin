@@ -1,20 +1,9 @@
 import axios from 'axios';
-
-
-
-export const tizkoCreateNewSubscriber = ({ user }) => {
-    const URL = process.env.REACT_APP_API_URL + 'users/subscribe';
-
-    console.log(user);
-
-    // return axios.post(URL, {
-
-    // }, { withCredentials: true });
-};
+import tizkoApiToken from './tizko-api-token';
 
 export const tizkoCreateNewClient = ( firstName, lastName, email, contactNumber, password, confirmPassword,  ) => {
     const URL = process.env.REACT_APP_API_URL + 'users';
-    const user = JSON.parse(localStorage.getItem('superuser'));
+    const token = tizkoApiToken.getToken();
 
     return axios.post(URL, {
         email: email,
@@ -27,7 +16,7 @@ export const tizkoCreateNewClient = ( firstName, lastName, email, contactNumber,
         firstName: firstName,
     }, {
         headers: {
-            Authorization: 'Bearer ' + user.jwtToken
+            Authorization: 'Bearer ' + token
         },
         withCredentials: true
     });
@@ -35,6 +24,7 @@ export const tizkoCreateNewClient = ( firstName, lastName, email, contactNumber,
 
 export const tizkoUpdateUserProfile = (user) => {
     const URL = process.env.REACT_APP_API_URL + 'auth/register';
+    const token = tizkoApiToken.getToken();
 
     return axios.post(
         URL,
@@ -43,7 +33,7 @@ export const tizkoUpdateUserProfile = (user) => {
         },
         {
             headers: {
-                Authorization: 'Bearer ' + user.jwtToken,
+                Authorization: 'Bearer ' + token,
             },
             withCredentials: true,
         }
@@ -52,16 +42,16 @@ export const tizkoUpdateUserProfile = (user) => {
 
 export const tizkoGetAllClients = () => {
     const URL = process.env.REACT_APP_API_URL + 'users';
-    const user = JSON.parse(localStorage.getItem('superuser'));
+    const token = tizkoApiToken.getToken();
 
     return axios.get(
         URL,
         {
             params: {
-                role: 'Admin'
+                role: 'admin'
             },
             headers: {
-                Authorization: 'Bearer ' + user.jwtToken,
+                Authorization: 'Bearer ' + token,
             },
             withCredentials: true,
         }

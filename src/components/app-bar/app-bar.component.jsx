@@ -8,7 +8,9 @@ import {
     IconButton,
     Badge,
     Button,
-    Switch
+    Switch,
+    Tooltip,
+    Divider
 } from '@material-ui/core';
 
 import {
@@ -35,12 +37,16 @@ const AppBarContainer = ({ userSignout, isToggled, darkState, onHandleThemeChang
         >
             <Toolbar className={classes.toolbar}>
                 <section className={classes.marginLeft}>
-                    <Switch checked={darkState} onChange={onHandleThemeChange} />
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon />
-                        </Badge>
-                    </IconButton>
+                    <Tooltip title={darkState ? "Light mode" : "Dark mode"}>
+                        <Switch checked={darkState} onChange={onHandleThemeChange} />
+                    </Tooltip>
+                    <Tooltip title="Notifications">
+                        <IconButton color="inherit">
+                            <Badge badgeContent={4} color="secondary">
+                                <NotificationsIcon />
+                            </Badge>
+                        </IconButton>
+                    </Tooltip>
                     <Button color="inherit" onClick={userSignout}>
                         Logout
                     </Button>

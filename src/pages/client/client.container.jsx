@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 
@@ -10,12 +10,12 @@ import ClientPage from "./client.component";
 const ClientPageContainer = ({ isLoading, getAllClients }) => {
     useEffect(() => {
         getAllClients();
-    }, [])
+    }, [getAllClients])
 
     return (
-        <Fragment>
+        <>
             { isLoading ? <Spinner /> : <ClientPage />}
-        </Fragment>
+        </>
     )
 }
 

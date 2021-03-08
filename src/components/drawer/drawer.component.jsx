@@ -54,7 +54,6 @@ const DrawerContainer = ({ mainMenu, toggleMenuDrawer, isToggled }) => {
                     {isToggled ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                 </IconButton>
             </div>
-            <Divider />
             <List>
                 {mainMenu.map((menu) => (
                     <ListItem

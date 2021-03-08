@@ -59,3 +59,7 @@ export const updateStoreProfileFailure = (error) => ({
     payload: error,
 });
 
+export const searchStores = (searchTerm) => ({
+    type: StoreActionTypes.SEARCH_STORES_FOR_TERM_START,
+    payload: searchTerm
+});

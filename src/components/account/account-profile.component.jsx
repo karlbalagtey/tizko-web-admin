@@ -5,7 +5,6 @@ import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from '../../redux/user/user.selector';
 import { updateUserProfile } from '../../redux/user/user.actions';
 
-import { makeStyles } from '@material-ui/styles';
 import {
     Card,
     CardActions,
@@ -13,24 +12,10 @@ import {
     Avatar,
     Divider,
     Button,
+    Typography,
 } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
-    root: {},
-    details: {
-        display: 'flex',
-        justifyContent: 'center'
-    },
-    avatar: {
-        height: 110,
-        width: 100,
-        flexShrink: 0,
-        flexGrow: 0,
-    },
-    uploadButton: {
-        marginRight: theme.spacing(2),
-    },
-}));
+import { useStyles } from './account-profile.styles';
 
 const AccountProfile = ({ currentUser }) => {
     const classes = useStyles();
@@ -45,6 +30,18 @@ const AccountProfile = ({ currentUser }) => {
                 <div className={classes.details}>
                     <Avatar className={classes.avatar} src={user.avatar} />
                 </div>
+                <Typography gutterBottom variant="h5" component="h2">
+                    {currentUser.firstName} {currentUser.lastName}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    Role: {currentUser.role}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    {currentUser.email}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
+                    {currentUser.billingAddress}
+                </Typography>
             </CardContent>
             <Divider />
             <CardActions>
@@ -61,12 +58,8 @@ const AccountProfile = ({ currentUser }) => {
     );
 };
 
-const mapStateToProps = createStructuredSelector({
-    currentUser: selectCurrentUser,
-});
-
 // const mapDispatchToProps = (dispatch) => ({
 //   updateAccountProfile: (userCredentials) => dispatch(updateUserProfile()),
 // });
 
-export default connect(mapStateToProps, null)(AccountProfile);
+export default connect(null, null)(AccountProfile);

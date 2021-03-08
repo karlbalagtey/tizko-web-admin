@@ -9,6 +9,7 @@ import {
     DialogContent,
     DialogContentText,
 } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 
 import { forgotPasswordStart } from '../../redux/auth/auth.actions';
 import { ForgotPassword } from './forgot-password.styles';
@@ -17,6 +18,8 @@ const ForgotPasswordDialog = ({ forgotPasswordStart }) => {
     const [userResetPassword, setUserResetPassword] = useState({
         emailReset: '',
     });
+
+    const theme = useTheme();
 
     const { emailReset } = userResetPassword;
 
@@ -69,7 +72,7 @@ const ForgotPasswordDialog = ({ forgotPasswordStart }) => {
                     </DialogActions>
                 </form>
             </Dialog>
-            <ForgotPassword onClick={handleClickOpenDialog}>
+            <ForgotPassword onClick={handleClickOpenDialog} theme={theme}>
                 Forgot password?
             </ForgotPassword>
         </div>

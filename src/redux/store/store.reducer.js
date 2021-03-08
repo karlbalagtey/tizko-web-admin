@@ -9,7 +9,7 @@ const INITIAL_STATE = {
     details: null,
     headCells: [
         {
-            id: 'storeName',
+            id: 'name',
             numeric: false,
             disablePadding: false,
             label: 'Store name',
@@ -27,13 +27,13 @@ const INITIAL_STATE = {
             label: 'Contact number',
         },
         {
-            id: 'createdAt',
+            id: 'created',
             numeric: true,
             disablePadding: false,
             label: 'Created',
         },
         {
-            id: 'updatedAt',
+            id: 'updated',
             numeric: true,
             disablePadding: false,
             label: 'Updated',
@@ -125,6 +125,23 @@ const storeReducer = (state = INITIAL_STATE, action) => {
                 message: null,
                 error: action.payload,
             };
+        case StoreActionTypes.SEARCH_STORES_FOR_TERM_START:
+            return {
+                ...state,
+                isLoading: true,
+            }
+        case StoreActionTypes.SEARCH_STORES_FOR_TERM_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                stores: action.payload
+            }
+        case StoreActionTypes.SEARCH_STORES_FOR_TERM_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload
+            }
         default:
             return state;
     }

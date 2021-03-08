@@ -15,9 +15,6 @@ const useToolbarStyles = makeStyles((theme) => ({
                   color: theme.palette.text.primary,
                   backgroundColor: theme.palette.secondary.dark,
               },
-    title: {
-        flex: '1 1 100%',
-    },
 }));
 
 export { useToolbarStyles };

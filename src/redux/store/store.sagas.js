@@ -15,17 +15,23 @@ import {
     tizkoUpdateStoreProfile,
     tizkoCreateNewStore,
     tizkoGetAllStores,
-    tizkoGetStoreDetails
+    tizkoGetStoreDetails,
+    tizkoSearchForStores
 } from '../../api/tizko-api-stores';
 
 export function* signUpStore({
     payload: { name, description, contactNumber, location },
 }) {
     try {
-        const { store } = yield tizkoCreateNewStore(name, description, contactNumber, location);
+        const { store } = yield tizkoCreateNewStore(
+            name,
+            description,
+            contactNumber,
+            location
+        );
         yield put(
             signUpStoreSuccess({
-                store
+                store,
             })
         );
     } catch (error) {
@@ -34,13 +40,9 @@ export function* signUpStore({
     }
 }
 
-export function* onSignUpStoreStart() {
-    yield takeLatest(StoreActionTypes.SIGN_UP_STORE_START, signUpStore);
-}
-
-export function* getAllStoresList() {
+export function* getAllStoresList(query) {
     try {
-        const { data } = yield tizkoGetAllStores();
+        const { data } = yield tizkoGetAllStores(query);
         yield put(getAllStoresListSuccess(data));
     } catch (error) {
         console.log(error);
@@ -60,6 +62,29 @@ export function* getStoreDetailsPage({ payload: storeId }) {
     }
 }
 
+export function* searchForStoreTerm({ payload: term }) {
+    try {
+        let stores;
+        const keyword = term || false;
+        console.log(keyword);
+
+        if (!keyword) {
+            stores = yield tizkoGetAllStores();
+        } else {
+            stores = yield tizkoSearchForStores(term);
+        }
+        
+        console.log(stores);
+
+        const { data } = stores;
+        
+        yield put(getAllStoresListSuccess(data));
+    } catch (error) {
+        console.log(error);
+        yield put(getAllStoresListFailure(error));
+    }
+}
+
 export function* updateStoreProfile({ payload: { userCredentials } }) {
     try {
         const res = yield tizkoUpdateStoreProfile(userCredentials);
@@ -67,6 +92,10 @@ export function* updateStoreProfile({ payload: { userCredentials } }) {
     } catch (error) {
         console.log(error);
     }
+}
+
+export function* onSignUpStoreStart() {
+    yield takeLatest(StoreActionTypes.SIGN_UP_STORE_START, signUpStore);
 }
 
 export function* onUpdateStoreProfileStart() {
@@ -77,13 +106,31 @@ export function* onUpdateStoreProfileStart() {
 }
 
 export function* onGetAllStoresListStart() {
-    yield takeLatest(StoreActionTypes.GET_ALL_STORES_LIST_START, getAllStoresList);
+    yield takeLatest(
+        StoreActionTypes.GET_ALL_STORES_LIST_START,
+        getAllStoresList
+    );
 }
 
 export function* onGetStoreDetailsStart() {
-    yield takeLatest(StoreActionTypes.GET_STORE_DETAILS_START, getStoreDetailsPage);
+    yield takeLatest(
+        StoreActionTypes.GET_STORE_DETAILS_START,
+        getStoreDetailsPage
+    );
+}
+
+export function* onSearchStoreForTermStart() {
+    yield takeLatest(
+        StoreActionTypes.SEARCH_STORES_FOR_TERM_START,
+        searchForStoreTerm
+    );
 }
 
 export function* storeSagas() {
-    yield all([call(onSignUpStoreStart), call(onGetAllStoresListStart), call(onGetStoreDetailsStart)]);
+    yield all([
+        call(onSignUpStoreStart),
+        call(onGetAllStoresListStart),
+        call(onGetStoreDetailsStart),
+        call(onSearchStoreForTermStart),
+    ]);
 }

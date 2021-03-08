@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const drawerWidth = 240;
 const mainAppStyles = makeStyles((theme) => ({
     root: {
-        display: 'flex',
+        display: 'flex'
     },
     appBarSpacer: theme.mixins.toolbar,
     content: {

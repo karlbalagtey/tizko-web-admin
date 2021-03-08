@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { createStructuredSelector } from 'reselect';
 
 import {
     Card,
@@ -12,23 +10,18 @@ import {
     Button,
     TextField,
 } from "@material-ui/core";
-import { selectCurrentUser } from "../../redux/user/user.selector";
 
 const AccountDetails = ({ currentUser }) => {
-    const [values, setValues] = useState({
-        firstName: currentUser.user.firstName,
-        lastName: currentUser.user.lastName,
-        email: currentUser.user.email,
-        phone: currentUser.user.contactNumber,
-    });
-
-    useEffect(() => {
-
+    const [user, setUser] = useState({ 
+        firstName: currentUser.firstName, 
+        lastName: currentUser.lastName,
+        email: currentUser.email,
+        contactNumber: currentUser.contactNumber
     });
 
     const handleChange = (event) => {
-        setValues({
-            ...values,
+        setUser({
+            ...user,
             [event.target.name]: event.target.value,
         });
     };
@@ -52,7 +45,7 @@ const AccountDetails = ({ currentUser }) => {
                                 name="firstName"
                                 onChange={handleChange}
                                 required
-                                value={values.firstName}
+                                value={user.firstName}
                                 variant="outlined"
                             />
                         </Grid>
@@ -64,7 +57,7 @@ const AccountDetails = ({ currentUser }) => {
                                 name="lastName"
                                 onChange={handleChange}
                                 required
-                                value={values.lastName}
+                                value={user.lastName}
                                 variant="outlined"
                             />
                         </Grid>
@@ -76,19 +69,19 @@ const AccountDetails = ({ currentUser }) => {
                                 name="email"
                                 onChange={handleChange}
                                 required
-                                value={values.email}
+                                value={user.email}
                                 variant="outlined"
                             />
                         </Grid>
                         <Grid item md={6} xs={12}>
                             <TextField
                                 fullWidth
-                                label="Phone Number"
+                                label="Contact Number"
                                 margin="dense"
-                                name="phone"
+                                name="contactNumber"
                                 onChange={handleChange}
-                                type="number"
-                                value={values.phone}
+                                required
+                                value={user.contactNumber}
                                 variant="outlined"
                             />
                         </Grid>
@@ -105,8 +98,4 @@ const AccountDetails = ({ currentUser }) => {
     );
 };
 
-const mapStateToProps = createStructuredSelector({
-    currentUser: selectCurrentUser
-});
-
-export default connect(mapStateToProps, null)(AccountDetails);
+export default AccountDetails;
