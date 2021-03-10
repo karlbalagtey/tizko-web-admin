@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from 'react';
+import React, { lazy, Suspense, useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -16,12 +16,13 @@ import DrawerContainer from '../drawer/drawer.component';
 import Copyright from '../copyright/copyright.component';
 import Spinner from '../spinner/spinner.component';
 
-const StorePage = lazy(() => import('../../pages/store/store.container'));
-const StoreSignUpPage = lazy(() =>
-    import('../../pages/store-sign-up/store-sign-up.container')
-);
 const DashboardPage = lazy(() =>
     import('../../pages/dashboard/dashboard.container')
+);
+const StorePage = lazy(() => import('../../pages/store/store.container'));
+const StoreDetailPage = lazy(() => import('../../pages/store-detail/store-detail.container'));
+const StoreSignUpPage = lazy(() =>
+    import('../../pages/store-sign-up/store-sign-up.container')
 );
 const ClientSignUpPage = lazy(() =>
     import('../../pages/client-sign-up/client-sign-up.container')
@@ -34,11 +35,8 @@ const SettingsPage = lazy(() =>
 const SubscriptionPage = lazy(() =>
     import('../../pages/subscription/subscription.component')
 );
-const StoreDetailPage = lazy(() =>
-    import('../../pages/store-detail/store-detail.container')
-);
 
-const MainApp = ({ isToggled }) => {
+const MainApp = ({ isToggled, match }) => {
     const classes = mainAppStyles();
     const [darkState, setDarkState] = useState(false);
     const palletType = darkState ? 'dark' : 'light';
@@ -80,52 +78,52 @@ const MainApp = ({ isToggled }) => {
                         <Suspense fallback={<Spinner />}>
                             <Route
                                 exact
-                                path="/dashboard"
+                                path={`${match.path}`}
                                 component={DashboardPage}
                             />
                             <Route
                                 exact
-                                path="/dashboard/store"
+                                path={`${match.path}/store`}
                                 component={StorePage}
                             />
                             <Route
                                 exact
-                                path="/store/search/:keyword"
+                                path={`${match.path}/store/search/:keyword`}
                                 component={StorePage}
                             />
                             <Route
                                 exact
-                                path="/dashboard/store/:storeId"
+                                path={`${match.path}/store/:storeId`}
                                 component={StoreDetailPage}
                             />
                             <Route
                                 exact
-                                path="/dashboard/store-signup"
+                                path={`${match.path}/store-signup`}
                                 component={StoreSignUpPage}
                             />
                             <Route
                                 exact
-                                path="/dashboard/client"
+                                path={`${match.path}/client`}
                                 component={ClientPage}
                             />
                             <Route
                                 exact
-                                path="/dashboard/client-signup"
+                                path={`${match.path}/client-signup`}
                                 component={ClientSignUpPage}
                             />
                             <Route
                                 exact
-                                path="/dashboard/subscriptions"
+                                path={`${match.path}/subscriptions`}
                                 component={SubscriptionPage}
                             />
                             <Route
                                 exact
-                                path="/dashboard/account"
+                                path={`${match.path}/account`}
                                 component={AccountPage}
                             />
                             <Route
                                 exact
-                                path="/dashboard/settings"
+                                path={`${match.path}/settings`}
                                 component={SettingsPage}
                             />
                         </Suspense>

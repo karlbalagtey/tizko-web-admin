@@ -1,21 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
-import queryString from 'query-string';
+
 import StorePage from './store.component';
 import { getAllStoresList } from '../../redux/store/store.actions';
 
 const StorePageContainer = ({ getStoresList }) => {
-    const history = useHistory();
-    const [query, setQuery] = useState({});
+    const [query, setQuery] = useState(null);
     
     const handleNavigate = params => setQuery(params);
 
     useEffect(() => {
-        const queryStr = queryString.stringify(query);
-        
-        history.push({ search: queryStr });
-        getStoresList(queryStr);
+        if (query) {
+            getStoresList(query);
+        }
     }, [getStoresList, query]);
 
     return <StorePage onNavigate={handleNavigate} />

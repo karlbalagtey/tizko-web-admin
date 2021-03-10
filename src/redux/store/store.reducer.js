@@ -1,4 +1,5 @@
 import StoreActionTypes from './store.types';
+import storeHeaders from '../../data/storeHeader';
 
 const INITIAL_STATE = {
     isLoading: false,
@@ -8,38 +9,7 @@ const INITIAL_STATE = {
     stores: null,
     details: null,
     navigation: null,
-    headCells: [
-        {
-            id: 'name',
-            numeric: false,
-            disablePadding: false,
-            label: 'Store name',
-        },
-        {
-            id: 'location',
-            numeric: false,
-            disablePadding: false,
-            label: 'Location',
-        },
-        {
-            id: 'contactNumber',
-            numeric: true,
-            disablePadding: false,
-            label: 'Contact number',
-        },
-        {
-            id: 'created',
-            numeric: true,
-            disablePadding: false,
-            label: 'Created',
-        },
-        {
-            id: 'updated',
-            numeric: true,
-            disablePadding: false,
-            label: 'Updated',
-        },
-    ],
+    headCells: storeHeaders
 };
 
 const storeReducer = (state = INITIAL_STATE, action) => {

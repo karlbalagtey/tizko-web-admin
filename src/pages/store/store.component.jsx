@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import queryString from 'query-string';
 
@@ -10,8 +10,6 @@ import {
     Container,
     TableContainer,
     Table,
-    TableRow,
-    TableCell,
     TableBody,
     TablePagination,
     Paper,
@@ -19,7 +17,6 @@ import {
     FormControlLabel,
 } from '@material-ui/core';
 
-import Spinner from '../../components/spinner/spinner.component';
 import EnhancedTableHead from '../../components/table-head/table-head.component';
 import EnhancedTableRow from '../../components/table-row/table-row.component';
 import TableToolbar from '../../components/table-toolbar/table-toolbar.component';
@@ -95,12 +92,16 @@ const StorePage = ({ stores, headCells, onNavigate, isLoaded }) => {
     const isSelected = (name) => selected.indexOf(name) !== -1;
     const storeCount = stores ? stores.totalResults : 0;
     const location = useLocation();
+    const history = useHistory();
     const params = queryString.parse(location.search);
 
     useEffect(() => {
         params.page = page;
         params.limit = rowsPerPage;
-        onNavigate(params);
+        const queryStr = queryString.stringify(params);
+
+        history.push({ search: queryStr });
+        onNavigate(queryStr);
     }, [page, rowsPerPage]);
 
     return (
@@ -142,15 +143,17 @@ const StorePage = ({ stores, headCells, onNavigate, isLoaded }) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, 50, 100]}
-                    component="div"
-                    count={storeCount}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                />
+                {isLoaded &&
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25, 50, 100]}
+                        component="div"
+                        count={storeCount}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                    />
+                }
             </Paper>
             <FormControlLabel
                 className={classes.denseSwitch}

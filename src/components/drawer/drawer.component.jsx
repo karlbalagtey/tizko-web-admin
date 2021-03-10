@@ -18,7 +18,6 @@ import {
     ListItem,
     ListItemText,
     ListItemIcon,
-    Divider,
     Typography,
 } from '@material-ui/core';
 

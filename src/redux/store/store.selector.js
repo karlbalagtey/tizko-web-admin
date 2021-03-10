@@ -2,9 +2,14 @@ import { createSelector } from 'reselect';
 
 const selectStore = (state) => state.store;
 
-export const selectCurrentStore = createSelector(
+export const selectStoreDetail = createSelector(
     [selectStore],
-    (store) => store.details
+    (store) => store
+);
+
+export const selectStoreDetailLoaded = createSelector(
+    [selectStore],
+    (store) => !!store.details
 );
 
 export const selectAllStores = createSelector(

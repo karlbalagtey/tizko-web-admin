@@ -42,9 +42,7 @@ export function* signUpStore({
 
 export function* getAllStoresList({ payload: query }) {
     try {
-        console.log(query);
         const { data } = yield tizkoGetAllStores(query);
-        console.log(data);
         yield put(getAllStoresListSuccess(data));
     } catch (error) {
         console.log(error);
@@ -54,8 +52,6 @@ export function* getAllStoresList({ payload: query }) {
 
 export function* getStoreDetailsPage({ payload: storeId }) {
     try {
-        console.log(storeId);
-
         const { data } = yield tizkoGetStoreDetails(storeId);
         yield put(getStoreDetailsSuccess(data));
     } catch (error) {

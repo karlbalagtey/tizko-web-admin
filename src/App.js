@@ -1,4 +1,4 @@
-import React, { useEffect, useState, lazy, Suspense } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -63,8 +63,8 @@ const App = ({ checkUserSession, currentUser }) => {
                             />
                             <Route
                                 path="/dashboard"
-                                render={() =>
-                                    currentUser ? <MainApp /> : <SignInPage />
+                                render={({match}) =>
+                                    currentUser ? <MainApp match={match} /> : <SignInPage />
                                 }
                             />
                         </Suspense>

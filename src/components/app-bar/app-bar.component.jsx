@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import clsx from 'clsx';
 import { createStructuredSelector } from 'reselect';
@@ -10,7 +10,6 @@ import {
     Button,
     Switch,
     Tooltip,
-    Divider
 } from '@material-ui/core';
 
 import {

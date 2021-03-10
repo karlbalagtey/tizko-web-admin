@@ -1,9 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-
-import { selectCurrentUser } from '../../redux/user/user.selector';
-import { updateUserProfile } from '../../redux/user/user.actions';
 
 import {
     Card,
