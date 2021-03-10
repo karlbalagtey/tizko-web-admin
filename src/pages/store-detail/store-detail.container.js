@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from "reselect";
 
-import { selectIsStoreLoading } from "../../redux/store/store.selector";
+import { selectIsStoreLoaded } from "../../redux/store/store.selector";
 import { getStoreDetails } from '../../redux/store/store.actions';
 import Spinner from "../../components/spinner/spinner.component";
 import StoreDetailPage from './store-detail.component';
@@ -23,7 +23,7 @@ const StoreDetailWrap = ({ getStoreDetailsInfo, isLoading }) => {
 }
 
 const mapStateToProps = createStructuredSelector({
-    isLoading: state => selectIsStoreLoading(state)
+    isLoading: state => selectIsStoreLoaded(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

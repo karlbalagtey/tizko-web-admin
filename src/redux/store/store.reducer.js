@@ -7,6 +7,7 @@ const INITIAL_STATE = {
     success: null,
     stores: null,
     details: null,
+    navigation: null,
     headCells: [
         {
             id: 'name',
@@ -141,6 +142,11 @@ const storeReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 isLoading: false,
                 error: action.payload
+            }
+        case StoreActionTypes.SET_STORE_NAVIGATION:
+            return {
+                ...state,
+                navigation: action.payload
             }
         default:
             return state;

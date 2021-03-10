@@ -38,18 +38,11 @@ export const tizkoUpdateStoreProfile = (storeId, name, description) => {
 };
 
 export const tizkoGetAllStores = (query) => {
-    const URL = process.env.REACT_APP_API_URL + 'stores';
+    const URL = `${process.env.REACT_APP_API_URL}stores?${query}`;
     const token = tizkoApiToken.getToken();
 
-    console.log(query);
-    
-    // const params = {
-    //     page: query.page,
-    //     limit: query.limit
-    // }
-
     return axios.get(
-        URL,{ ...query},
+        URL,
         {
             headers: {
                 Authorization: 'Bearer ' + token,

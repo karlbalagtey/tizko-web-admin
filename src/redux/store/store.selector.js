@@ -12,13 +12,17 @@ export const selectAllStores = createSelector(
     (store) => store.stores
 );
 
-export const selectIsStoreLoading = createSelector(
+export const selectIsStoreLoaded = createSelector(
     [selectStore],
-    (store) => store.isLoading
-    
-)
+    (store) => !!store.stores
+);
 
 export const selectAllHeadCells = createSelector(
     [selectStore],
     (store) => store.headCells
-)
+);
+
+export const selectNav = createSelector(
+    [selectStore],
+    (store) => store.navigation
+);

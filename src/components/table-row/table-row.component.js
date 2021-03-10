@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { TableRow, TableCell, Checkbox, Button } from '@material-ui/core';
 import { useStyles } from './table-row.styles';
+import WithSpinner from '../with-spinner/with-spinner.component';
 
 const EnhancedTableRow = ({
     store,
@@ -47,4 +48,4 @@ const EnhancedTableRow = ({
     );
 };
 
-export default EnhancedTableRow;
+export default WithSpinner(EnhancedTableRow);

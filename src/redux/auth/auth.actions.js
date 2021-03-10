@@ -54,6 +54,11 @@ export const checkUserSession = () => ({
     type: AuthActionTypes.CHECK_USER_SESSION,
 });
 
+export const authenticated = (expires) => ({
+    type: AuthActionTypes.AUTHENTICATED,
+    payload: expires,
+});
+
 export const noUserFound = (message) => ({
     type: AuthActionTypes.NO_USER_FOUND,
     payload: message,

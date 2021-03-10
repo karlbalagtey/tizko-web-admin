@@ -90,7 +90,7 @@ const MainApp = ({ isToggled }) => {
                             />
                             <Route
                                 exact
-                                path="/store/search/:keyboard"
+                                path="/store/search/:keyword"
                                 component={StorePage}
                             />
                             <Route

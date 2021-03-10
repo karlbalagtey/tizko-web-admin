@@ -13,7 +13,7 @@ export const tizkoSignIn = async (email, password) => {
     );
     const { user, token } = data;
 
-    tizkoApiToken.setToken(token.access);
+    tizkoApiToken.setToken(token.access, token.expires);
     return user;
 };
 
@@ -21,21 +21,9 @@ export const tizkoCheckAuth = async () => {
     const token = tizkoApiToken.getToken();
 
     if (!token) {
-        const { data } = await tizkoApiToken.refreshToken();
-        const { access, expires } = data;
-        const now = Date.now().valueOf() / 1000;
-        const user = JSON.parse(localStorage.getItem('superuser'));
-
-        if (expires < now) {
-            tizkoApiToken.setToken(access);
-            return Promise.resolve(user);
-        }
-
-        tizkoApiToken.setToken(access);
-        return Promise.resolve(user);
+        const res = await tizkoApiToken.getRefreshToken();
+        return Promise.resolve(res);
     }
-
-    return Promise.reject();
 };
 
 export const tizkoForgotPassword = (email) => {
@@ -64,10 +52,6 @@ export const tizkoResetPassword = (token, password, confirmPassword) => {
         },
         { withCredentials: true }
     );
-};
-
-export const tizkoValidateResetToken = (token) => {
-    console.log(token);
 };
 
 export const tizkoSignOut = () => {

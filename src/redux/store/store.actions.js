@@ -1,7 +1,8 @@
 import StoreActionTypes from "./store.types";
 
-export const getAllStoresList = () => ({
+export const getAllStoresList = (query) => ({
     type: StoreActionTypes.GET_ALL_STORES_LIST_START,
+    payload: query,
 });
 
 export const getAllStoresListSuccess = (stores) => ({
@@ -12,6 +13,11 @@ export const getAllStoresListSuccess = (stores) => ({
 export const getAllStoresListFailure = (error) => ({
     type: StoreActionTypes.GET_ALL_STORES_LIST_FAILURE,
     payload: error,
+});
+
+export const setStoreNav = (nav) => ({
+    type: StoreActionTypes.SET_STORE_NAVIGATION,
+    payload: nav,
 });
 
 export const getStoreDetails = (storeId) => ({

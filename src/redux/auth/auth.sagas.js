@@ -10,6 +10,7 @@ import {
     forgotPasswordSuccess,
     resetPasswordSuccess,
     noUserFound,
+    authenticated,
 } from './auth.actions';
 
 import {
@@ -33,8 +34,8 @@ export function* signInWithEmail({ payload: { email, password } }) {
 
 export function* isUserAuthenticated() {
     try {
-        yield tizkoCheckAuth();
-        yield put({type: 'AUTHENTICATED'});
+        const expires = yield tizkoCheckAuth();
+        yield put(authenticated(expires));
     } catch (error) {
         yield put(noUserFound(error.message));
     }

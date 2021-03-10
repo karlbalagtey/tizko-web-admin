@@ -40,9 +40,11 @@ export function* signUpStore({
     }
 }
 
-export function* getAllStoresList(query) {
+export function* getAllStoresList({ payload: query }) {
     try {
+        console.log(query);
         const { data } = yield tizkoGetAllStores(query);
+        console.log(data);
         yield put(getAllStoresListSuccess(data));
     } catch (error) {
         console.log(error);

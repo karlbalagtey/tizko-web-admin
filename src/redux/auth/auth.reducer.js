@@ -21,6 +21,7 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 isAuthenticated: true,
                 isSubmitting: false,
+                ctr: action.payload,
             };
         case AuthActionTypes.NO_USER_FOUND:
             return {
