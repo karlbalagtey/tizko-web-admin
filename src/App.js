@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import ErrorBoundary from './components/error-boundary/error-boundary.component';
@@ -20,7 +19,7 @@ const SignInPage = lazy(() => import('./pages/sign-in/sign-in.container'));
 const ResetPassword = lazy(() =>
     import('./pages/reset-password/reset-password.component')
 );
-const MainApp = lazy(() => import('./components/main-app/main-app.component'));
+const Admin = lazy(() => import('./layouts/admin/admin.component'));
 
 const App = ({ checkUserSession, currentUser }) => {
     useEffect(() => {
@@ -64,7 +63,7 @@ const App = ({ checkUserSession, currentUser }) => {
                             <Route
                                 path="/dashboard"
                                 render={({match}) =>
-                                    currentUser ? <MainApp match={match} /> : <SignInPage />
+                                    currentUser ? <Admin match={match} /> : <SignInPage />
                                 }
                             />
                         </Suspense>

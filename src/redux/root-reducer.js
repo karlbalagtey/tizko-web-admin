@@ -7,6 +7,7 @@ import authReducer from "./auth/auth.reducer";
 import storeReducer from "./store/store.reducer";
 import dashboardReducer from "./dashboard/dashboard.reducer";
 import menuReducer from "./menu/menu.reducer";
+import notifyReducer from "./notify/notify.reducer";
 
 const persistConfig = {
     key: "root",
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     dashboard: dashboardReducer,
     menu: menuReducer,
     store: storeReducer,
+    notify: notifyReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

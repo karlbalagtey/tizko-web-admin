@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SignIn from '../../components/sign-in/sign-in.component';
+import SignIn from '../../components/sign-in/sign-in';
 import Copyright from '../../components/copyright/copyright.component';
 
 import { SignInContainer, SignInGrid, SignInBox } from './sign-in.styles';

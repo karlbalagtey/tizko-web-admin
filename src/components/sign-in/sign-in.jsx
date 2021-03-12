@@ -20,11 +20,9 @@ import {
 } from './sign-in.styles';
 
 import logo from '../../assets/eslogo.png';
-
-import AlertNotification from '../alert-notification/alert-notification.component';
 import ForgotPasswordDialog from '../forgot-password/forgot-password.component';
 
-const SignIn = ({ emailSignInStart, message, error, success }) => {
+const SignIn = ({ emailSignInStart }) => {
     const [userCredentials, setUserCredentials] = useState({
         email: '',
         password: '',
@@ -46,7 +44,6 @@ const SignIn = ({ emailSignInStart, message, error, success }) => {
 
     return (
         <SignInContainer>
-            <AlertNotification success={success} message={message} error={error} />
             <img src={logo} alt="Easy Goody Logo" />
             <SignInTitle theme={theme}>Tizko</SignInTitle>
 
@@ -95,15 +92,9 @@ const SignIn = ({ emailSignInStart, message, error, success }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
-    message: state.auth.message,
-    success: state.auth.success,
-    error: state.auth.error
-});
-
 const mapDispatchToProps = (dispatch) => ({
     emailSignInStart: (email, password) =>
         dispatch(emailSignInStart({ email, password })),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(null, mapDispatchToProps)(SignIn);

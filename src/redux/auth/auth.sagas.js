@@ -24,7 +24,6 @@ import {
 export function* signInWithEmail({ payload: { email, password } }) {
     try {
         const user = yield tizkoSignIn(email, password);
-
         yield put(signInSuccess(user));
     } catch (error) {
         console.log(error);

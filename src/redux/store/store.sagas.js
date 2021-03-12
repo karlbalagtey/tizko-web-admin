@@ -19,6 +19,10 @@ import {
     tizkoSearchForStores
 } from '../../api/tizko-api-stores';
 
+import {
+    notifyError
+} from '../notify/notify.actions';
+
 export function* signUpStore({
     payload: { name, description, contactNumber, location },
 }) {
@@ -45,14 +49,14 @@ export function* getAllStoresList({ payload: query }) {
         const { data } = yield tizkoGetAllStores(query);
         yield put(getAllStoresListSuccess(data));
     } catch (error) {
-        console.log(error);
-        yield put(getAllStoresListFailure(error));
+        yield put(notifyError(error));
     }
 }
 
 export function* getStoreDetailsPage({ payload: storeId }) {
     try {
-        const { data } = yield tizkoGetStoreDetails(storeId);
+        const { data } = yield call(tizkoGetStoreDetails, storeId);
+        console.log(data);
         yield put(getStoreDetailsSuccess(data));
     } catch (error) {
         console.log(error);

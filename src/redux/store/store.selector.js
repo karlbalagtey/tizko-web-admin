@@ -4,7 +4,7 @@ const selectStore = (state) => state.store;
 
 export const selectStoreDetail = createSelector(
     [selectStore],
-    (store) => store
+    (store) => store.details
 );
 
 export const selectStoreDetailLoaded = createSelector(

@@ -3,24 +3,24 @@ import { connect } from "react-redux";
 import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from "reselect";
 
-import { selectStoreDetailLoaded } from "../../redux/store/store.selector";
+import { selectStoreDetail } from "../../redux/store/store.selector";
 import { getStoreDetails } from '../../redux/store/store.actions';
 import Spinner from "../../components/spinner/spinner.component";
 import StoreDetailPage from './store-detail.component';
 
-const StoreDetailComponent = ({ getStoreDetailsInfo, hasLoaded }) => {
+const StoreDetailComponent = ({ getStoreDetailsInfo, store }) => {
     const { storeId } = useParams();
 
     useEffect(() => {
         getStoreDetailsInfo(storeId);
-    }, [getStoreDetailsInfo, storeId]);
+    }, [storeId]);
 
-    return hasLoaded ? <Spinner /> : <StoreDetailPage />
+    return store ? <StoreDetailPage store={store} /> : <Spinner />
 }
 
 const mapStateToProps = createStructuredSelector({
-    hasLoaded: (state) => selectStoreDetailLoaded(state)
-});
+    store: selectStoreDetail,
+})
 
 const mapDispatchToProps = (dispatch) => ({
     getStoreDetailsInfo: (storeId) => dispatch(getStoreDetails(storeId))

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import queryString from 'query-string';
 
@@ -92,7 +92,6 @@ const StorePage = ({ stores, headCells, onNavigate, isLoaded }) => {
     const isSelected = (name) => selected.indexOf(name) !== -1;
     const storeCount = stores ? stores.totalResults : 0;
     const location = useLocation();
-    const history = useHistory();
     const params = queryString.parse(location.search);
 
     useEffect(() => {
@@ -100,7 +99,6 @@ const StorePage = ({ stores, headCells, onNavigate, isLoaded }) => {
         params.limit = rowsPerPage;
         const queryStr = queryString.stringify(params);
 
-        history.push({ search: queryStr });
         onNavigate(queryStr);
     }, [page, rowsPerPage]);
 

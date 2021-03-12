@@ -1,69 +1,63 @@
 import React, { useState } from 'react';
-
+import PropTypes from 'prop-types';
 import { Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 
-const Alert = (props) => {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+export default function tizkoNotify(props) {
+    const { type, autoHideDuration, message, vertical, horizontal } = props;
 
-const AlertNotification = ({ success, message, error }) => {
-    const [openStatus, setOpenStatus] = useState(true);
-
-    const handleCloseStatus = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-
-        setOpenStatus(false);
+    const addNotification = (props) => {
+        return <AlertNotification props />
     };
 
-    return (
-        <div>
-            {success != null ? (
-                <Snackbar
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                    open={openStatus}
-                    autoHideDuration={4000}
-                    onClose={handleCloseStatus}
-                    // eslint-disable-next-line
-                    key={`${'bottom' + 'right'}`}
-                >
-                    <Alert onClose={handleCloseStatus} severity="success">
-                        {success}
-                    </Alert>
-                </Snackbar>
-            ) : null}
+    const Alert = (props) => {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+    };
 
-            {message != null ? (
-                <Snackbar
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                    open={openStatus}
-                    onClose={handleCloseStatus}
-                    // eslint-disable-next-line
-                    key={`${'bottom' + 'right'}`}
-                >
-                    <Alert onClose={handleCloseStatus} severity="info">
-                        {message}
-                    </Alert>
-                </Snackbar>
-            ) : null}
+    const AlertNotification = (props) => {
+        const [openStatus, setOpenStatus] = useState(true);
 
-            {error != null ? (
-                <Snackbar
-                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                    open={openStatus}
-                    onClose={handleCloseStatus}
-                    // eslint-disable-next-line
-                    key={`${'top' + 'center'}`}
-                >
-                    <Alert onClose={handleCloseStatus} severity="error">
-                        {error}
-                    </Alert>
-                </Snackbar>
-            ) : null}
-        </div>
-    );
+        const handleCloseStatus = (event, reason) => {
+            if (reason === 'clickaway') {
+                return;
+            }
+
+            setOpenStatus(false);
+        };
+
+        return (
+            <Snackbar
+                anchorOrigin={{ vertical: vertical, horizontal: horizontal }}
+                open={openStatus}
+                autoHideDuration={autoHideDuration}
+                onClose={handleCloseStatus}
+                // eslint-disable-next-line
+                key={vertical + horizontal}
+            >
+                <Alert onClose={handleCloseStatus} severity={type}>
+                    {message}
+                </Alert>
+            </Snackbar>
+        );
+    };
+
+    return {
+        addNotification
+    }
 }
 
-export default AlertNotification;
+tizkoNotify.propTypes = {
+    type: PropTypes.string,
+    message: PropTypes.string,
+    autoHideDuration: PropTypes.number,
+    vertical: PropTypes.string,
+    horiontal: PropTypes.string,
+};
+
+tizkoNotify.defaultProps = {
+    type: 'success',
+    message: 'Success',
+    autoHideDuration: 4000,
+    vertical: 'bottom',
+    horiontal: 'center',
+};
