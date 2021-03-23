@@ -21,13 +21,22 @@ import {
     tizkoCheckAuth,
 } from '../../api/tizko-api-auth';
 
+import {
+    notifyError,
+    notifySuccess,
+} from '../notify/notify.actions';
+
+import { handleError } from '../../util/handleError';
+
 export function* signInWithEmail({ payload: { email, password } }) {
     try {
         const user = yield tizkoSignIn(email, password);
+        yield put(notifySuccess('Welcome aboard'));
         yield put(signInSuccess(user));
     } catch (error) {
-        console.log(error);
-        yield put(signInFailure(error));
+        const response = yield call(handleError, error);
+        yield put(notifyError(response));
+        yield put(signInFailure(response));
     }
 }
 
@@ -36,28 +45,33 @@ export function* isUserAuthenticated() {
         const expires = yield tizkoCheckAuth();
         yield put(authenticated(expires));
     } catch (error) {
-        yield put(noUserFound(error.message));
+        const response = yield call(handleError, error);
+        yield put(notifyError(response));
+        yield put(noUserFound());
     }
 }
 
 export function* signOutUser() {
     try {
         yield tizkoSignOut();
+        yield put(notifySuccess('See you soon!'));
         yield put(signOutSuccess());
     } catch (error) {
-        yield put(signOutFailure(error));
+        const response = yield call(handleError, error);
+        yield put(notifyError(response));
+        yield put(signOutFailure(response));
     }
 }
 
 export function* forgotPassword({ payload: { email } }) {
     try {
-        const res = yield tizkoForgotPassword(email);
-        console.log(res);
-        console.log(res.data);
-
-        yield put(forgotPasswordSuccess(res.data.message));
+        yield tizkoForgotPassword(email);
+        yield put(notifySuccess('Please check your email to reset password'));
+        yield put(forgotPasswordSuccess());
     } catch (error) {
-        yield put(signInFailure(error));
+        const response = yield call(handleError, error);
+        yield put(notifyError(response));
+        yield put(signInFailure(response));
     }
 }
 
@@ -66,11 +80,12 @@ export function* resetPassword({
 }) {
     try {
         const res = yield tizkoResetPassword(token, password, confirmPassword);
-        console.log(res);
-
+        yield put(notifySuccess(res.data.message));
         yield put(resetPasswordSuccess(res.data.message));
     } catch (error) {
-        console.log(error);
+        const response = yield call(handleError, error);
+        yield put(notifyError(response));
+        yield put(signInFailure(response));
     }
 }
 

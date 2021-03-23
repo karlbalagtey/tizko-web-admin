@@ -11,20 +11,20 @@ import {
     signUpStoreFailure,
 } from './store.actions';
 
+import { signOutStart } from '../auth/auth.actions';
+
 import {
     tizkoUpdateStoreProfile,
     tizkoCreateNewStore,
     tizkoGetAllStores,
     tizkoGetStoreDetails,
-    tizkoSearchForStores
+    tizkoSearchForStores,
 } from '../../api/tizko-api-stores';
 
-import {
-    notifyError
-} from '../notify/notify.actions';
+import { notifyError, notifySuccess } from '../notify/notify.actions';
 
 export function* signUpStore({
-    payload: { name, description, contactNumber, location },
+    payload: { name, description, contactNumber, location, history },
 }) {
     try {
         const { store } = yield tizkoCreateNewStore(
@@ -38,6 +38,8 @@ export function* signUpStore({
                 store,
             })
         );
+        yield put(notifySuccess('Added new store'));
+        history.push('/dashboard/store');
     } catch (error) {
         console.log(error.response.data.error);
         yield put(signUpStoreFailure(error.response.data.error));
@@ -50,6 +52,7 @@ export function* getAllStoresList({ payload: query }) {
         yield put(getAllStoresListSuccess(data));
     } catch (error) {
         yield put(notifyError(error));
+        yield put(signOutStart());
     }
 }
 
@@ -75,11 +78,11 @@ export function* searchForStoreTerm({ payload: term }) {
         } else {
             stores = yield tizkoSearchForStores(term);
         }
-        
+
         console.log(stores);
 
         const { data } = stores;
-        
+
         yield put(getAllStoresListSuccess(data));
     } catch (error) {
         console.log(error);

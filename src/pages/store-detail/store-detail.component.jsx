@@ -16,7 +16,7 @@ const StoreDetailPage = ({ store }) => {
         <>
             <PrimarySearchAppBar title={name} />
             <Container maxWidth="lg">
-                <Grid container spacing={3}>
+                <Grid container spacing={3} className="containerTop">
                     <Grid item xs={12} md={8} lg={9}>
                         <Paper className={classes.paper}>
                             <Typography

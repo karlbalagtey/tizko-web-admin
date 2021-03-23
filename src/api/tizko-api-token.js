@@ -25,6 +25,12 @@ const tizkoApiToken = () => {
 
         return axios
             .post(URL, {}, { withCredentials: true })
+            .then(res => {
+                if (res.status === 401) {
+                    clearToken();
+                }
+                return res;
+            })
             .then(({ data }) => {
                 const { access, expires } = data;
 

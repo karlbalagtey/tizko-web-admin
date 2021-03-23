@@ -14,6 +14,7 @@ export const tizkoSignIn = async (email, password) => {
     const { user, token } = data;
 
     tizkoApiToken.setToken(token.access, token.expires);
+    console.log(user);
     return user;
 };
 

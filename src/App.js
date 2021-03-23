@@ -15,6 +15,8 @@ import Spinner from './components/spinner/spinner.component';
 import { selectCurrentUser } from './redux/auth/auth.selector';
 import { checkUserSession } from './redux/auth/auth.actions';
 
+import AlertNotification from './components/alert-notification/alert-notification.component';
+
 const SignInPage = lazy(() => import('./pages/sign-in/sign-in.container'));
 const ResetPassword = lazy(() =>
     import('./pages/reset-password/reset-password.component')
@@ -44,6 +46,7 @@ const App = ({ checkUserSession, currentUser }) => {
             <Router>
                 <Switch>
                     <ErrorBoundary>
+                        <AlertNotification />
                         <Suspense fallback={<Spinner />}>
                             <Route
                                 exact

@@ -12,7 +12,7 @@ export const getAllStoresListSuccess = (stores) => ({
 
 export const getAllStoresListFailure = (error) => ({
     type: StoreActionTypes.GET_ALL_STORES_LIST_FAILURE,
-    payload: error,
+    payload: error.response.data.message,
 });
 
 export const setStoreNav = (nav) => ({
@@ -32,7 +32,7 @@ export const getStoreDetailsSuccess = (store) => ({
 
 export const getStoreDetailsFailure = (error) => ({
     type: StoreActionTypes.GET_STORE_DETAILS_FAILURE,
-    payload: error,
+    payload: error.response.data.message,
 });
 
 export const signUpStoreStart = (storeCredentials) => ({
@@ -47,7 +47,7 @@ export const signUpStoreSuccess = ({ store, additionalData }) => ({
 
 export const signUpStoreFailure = (error) => ({
     type: StoreActionTypes.SIGN_UP_STORE_FAILURE,
-    payload: error,
+    payload: error.response.data.message,
 });
 
 export const updateStoreProfileStart = (storeCredentials) => ({
@@ -62,7 +62,7 @@ export const updateStoreProfileSuccess = (success) => ({
 
 export const updateStoreProfileFailure = (error) => ({
     type: StoreActionTypes.UPDATE_STORE_PROFILE_FAILURE,
-    payload: error,
+    payload: error.response.data.message,
 });
 
 export const searchStores = (searchTerm) => ({

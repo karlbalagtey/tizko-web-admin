@@ -10,9 +10,8 @@ export const forgotPasswordStart = (email) => ({
     payload: email,
 });
 
-export const forgotPasswordSuccess = (message) => ({
+export const forgotPasswordSuccess = () => ({
     type: AuthActionTypes.FORGOT_PASSWORD_SUCCESS,
-    payload: message,
 });
 
 export const resetPasswordStart = (userCredentials) => ({
@@ -27,17 +26,17 @@ export const resetPasswordSuccess = (message) => ({
 
 export const validateResetTokenStart = (token) => ({
     type: AuthActionTypes.VALIDATE_RESET_TOKEN_START,
-    payload: token
+    payload: token,
 });
 
 export const validateResetTokenSuccess = (success) => ({
     type: AuthActionTypes.VALIDATE_RESET_TOKEN_SUCCESS,
-    payload: success
+    payload: success,
 });
 
 export const validateResetTokenFailure = (error) => ({
     type: AuthActionTypes.VALIDATE_RESET_TOKEN_ERROR,
-    payload: error
+    payload: error,
 });
 
 export const signInSuccess = (user) => ({
@@ -59,9 +58,8 @@ export const authenticated = (expires) => ({
     payload: expires,
 });
 
-export const noUserFound = (message) => ({
+export const noUserFound = () => ({
     type: AuthActionTypes.NO_USER_FOUND,
-    payload: message,
 });
 
 export const signOutStart = () => ({
@@ -94,7 +92,7 @@ export const signUpClientFailure = (error) => ({
 
 export const updateUserProfileStart = (userCredentials) => ({
     type: AuthActionTypes.UPDATE_USER_PROFILE_START,
-    payload: userCredentials
+    payload: userCredentials,
 });
 
 export const updateUserProfileSuccess = (success) => ({

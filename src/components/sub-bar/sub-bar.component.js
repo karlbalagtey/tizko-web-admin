@@ -99,9 +99,6 @@ const PrimarySearchAppBar = ({ title }) => {
           <Typography className={classes.title} variant="h6" noWrap>
             {title}
           </Typography>
-          <div className={classes.searchMarginLeft}>
-            <SearchInput />
-          </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">

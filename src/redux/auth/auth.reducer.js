@@ -28,9 +28,6 @@ const authReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 isSubmitting: false,
                 currentUser: null,
-                success: null,
-                message: 'Login to continue',
-                error: null,
             };
         case AuthActionTypes.EMAIL_SIGN_IN_START:
             return {
@@ -41,9 +38,6 @@ const authReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 currentUser: action.payload,
-                error: null,
-                success: 'Successfully signed in',
-                message: null,
                 isSubmitting: false,
                 isAuthenticated: true,
             };
@@ -56,9 +50,6 @@ const authReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 currentUser: null,
-                error: null,
-                success: 'Successfully signed out',
-                message: null,
                 isSubmitting: false,
                 isAuthenticated: false,
             };
@@ -70,9 +61,6 @@ const authReducer = (state = INITIAL_STATE, action) => {
         case AuthActionTypes.FORGOT_PASSWORD_SUCCESS:
             return {
                 ...state,
-                message: null,
-                error: null,
-                success: action.payload,
                 isSubmitting: false,
             };
         case AuthActionTypes.RESET_PASSWORD_START:
@@ -83,9 +71,6 @@ const authReducer = (state = INITIAL_STATE, action) => {
         case AuthActionTypes.RESET_PASSWORD_SUCCESS:
             return {
                 ...state,
-                message: null,
-                error: null,
-                success: action.payload,
                 isSubmitting: false,
             };
         case AuthActionTypes.VALIDATE_TOKEN_START:
