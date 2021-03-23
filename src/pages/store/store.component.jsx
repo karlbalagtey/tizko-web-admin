@@ -36,10 +36,13 @@ const StorePage = ({ stores, headCells, onNavigate, isLoaded }) => {
     const classes = useStyles();
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
+    const [searchQuery, setSearchQuery] = useState('');
     const [selected, setSelected] = useState([]);
     const [page, setPage] = useState(1);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const location = useLocation();
+    const params = queryString.parse(location.search);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -89,23 +92,34 @@ const StorePage = ({ stores, headCells, onNavigate, isLoaded }) => {
         setDense(event.target.checked);
     };
 
+    const handleSearch = (e) => {
+        const searchTerm = e.target.value;
+
+        if (e.key === 'Enter') {
+            setSearchQuery(searchTerm);
+        }
+    };
+
     const isSelected = (name) => selected.indexOf(name) !== -1;
     const storeCount = stores ? stores.totalResults : 0;
-    const location = useLocation();
-    const params = queryString.parse(location.search);
 
     useEffect(() => {
         params.page = page;
         params.limit = rowsPerPage;
+
+        if (searchQuery) {
+            params.name = searchQuery;
+        }
+
         const queryStr = queryString.stringify(params);
 
         onNavigate(queryStr);
-    }, [page, rowsPerPage]);
+    }, [page, rowsPerPage, searchQuery]);
 
     return (
         <Container disableGutters={true}>
             <Paper square>
-                <TableToolbar numSelected={selected.length} />
+                <TableToolbar numSelected={selected.length} handlePressEnter={handleSearch} />
                 <TableContainer>
                     <Table
                         className={classes.table}

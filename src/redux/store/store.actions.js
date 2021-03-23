@@ -40,9 +40,9 @@ export const signUpStoreStart = (storeCredentials) => ({
     payload: storeCredentials,
 });
 
-export const signUpStoreSuccess = ({ store, additionalData }) => ({
+export const signUpStoreSuccess = (store) => ({
     type: StoreActionTypes.SIGN_UP_STORE_SUCCESS,
-    payload: { store, additionalData },
+    payload: store,
 });
 
 export const signUpStoreFailure = (error) => ({

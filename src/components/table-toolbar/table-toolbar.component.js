@@ -1,14 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
-import {
-    Toolbar,
-    Typography,
-    IconButton,
-    Tooltip,
-} from '@material-ui/core';
+import { Toolbar, Typography, IconButton, Tooltip } from '@material-ui/core';
 
 import ArchiveIcon from '@material-ui/icons/Archive';
 import SendIcon from '@material-ui/icons/Send';
@@ -17,12 +11,11 @@ import PrintIcon from '@material-ui/icons/Print';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 import SearchInput from '../../components/search-input/search-input.component';
-
 import { useToolbarStyles } from './table-toolbar.styles';
 
 const TableToolbar = (props) => {
+    const { numSelected, handlePressEnter } = props;
     const classes = useToolbarStyles();
-    const { numSelected } = props;
 
     return (
         <Toolbar
@@ -41,7 +34,7 @@ const TableToolbar = (props) => {
                 </Typography>
             ) : (
                 <>
-                    <SearchInput />
+                    <SearchInput pressEnter={handlePressEnter} />
                 </>
             )}
 
@@ -96,8 +89,4 @@ TableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
 };
 
-// const mapDispatchToProps = dispatch => ({
-//     searchStores: () => dispatch(searchStoresTerm())
-// });
-
-export default connect(null, null)(TableToolbar);
+export default TableToolbar;

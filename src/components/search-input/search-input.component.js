@@ -1,28 +1,17 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 
 import { searchInputStyle } from './search-input.styles';
 
-import { searchStores } from '../../redux/store/store.actions';
-
-const SearchInput = ({ searchForStores }) => {
-    const [searchTerm, setSearchTerm] = useState('');
+const SearchInput = ({ pressEnter }) => {
     const classes = searchInputStyle();
+    const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearch = (e) => {
         const keyword = e.target.value;
         setSearchTerm(keyword);
-        console.log(searchTerm);
-    }
-    
-    const pressEnter = (e) => {
-        if(e.key === 'Enter') {
-            console.log(searchTerm);
-            searchForStores(searchTerm);
-        }
     }
 
     return (
@@ -45,8 +34,4 @@ const SearchInput = ({ searchForStores }) => {
     );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-    searchForStores: (searchTerm) => dispatch(searchStores(searchTerm))
-});
-
-export default connect(null, mapDispatchToProps)(SearchInput);
+export default SearchInput;

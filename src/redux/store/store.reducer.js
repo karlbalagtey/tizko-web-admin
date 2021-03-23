@@ -84,9 +84,7 @@ const storeReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLoading: false,
-                success: 'Successfully added store',
-                message: null,
-                error: null,
+                details: action.payload,
             };
         case StoreActionTypes.SIGN_UP_STORE_FAILURE:
             return {

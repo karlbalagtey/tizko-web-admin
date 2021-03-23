@@ -27,19 +27,15 @@ export function* signUpStore({
     payload: { name, description, contactNumber, location, history },
 }) {
     try {
-        const { store } = yield tizkoCreateNewStore(
+        const { data } = yield tizkoCreateNewStore(
             name,
             description,
             contactNumber,
             location
         );
-        yield put(
-            signUpStoreSuccess({
-                store,
-            })
-        );
+        yield put(signUpStoreSuccess(data));
         yield put(notifySuccess('Added new store'));
-        history.push('/dashboard/store');
+        history.push(`/dashboard/store/${data.id}`);
     } catch (error) {
         console.log(error.response.data.error);
         yield put(signUpStoreFailure(error.response.data.error));
@@ -48,7 +44,15 @@ export function* signUpStore({
 
 export function* getAllStoresList({ payload: query }) {
     try {
-        const { data } = yield tizkoGetAllStores(query);
+        let stores;
+        const keyword = query.name || false;
+        if (!keyword) {
+            stores = yield tizkoGetAllStores(query);
+        } else {
+            stores = yield tizkoGetAllStores(keyword);
+        }
+        const { data } = stores;
+
         yield put(getAllStoresListSuccess(data));
     } catch (error) {
         yield put(notifyError(error));
@@ -59,34 +63,10 @@ export function* getAllStoresList({ payload: query }) {
 export function* getStoreDetailsPage({ payload: storeId }) {
     try {
         const { data } = yield call(tizkoGetStoreDetails, storeId);
-        console.log(data);
         yield put(getStoreDetailsSuccess(data));
     } catch (error) {
         console.log(error);
         yield put(getStoreDetailsFailure(error));
-    }
-}
-
-export function* searchForStoreTerm({ payload: term }) {
-    try {
-        let stores;
-        const keyword = term || false;
-        console.log(keyword);
-
-        if (!keyword) {
-            stores = yield tizkoGetAllStores();
-        } else {
-            stores = yield tizkoSearchForStores(term);
-        }
-
-        console.log(stores);
-
-        const { data } = stores;
-
-        yield put(getAllStoresListSuccess(data));
-    } catch (error) {
-        console.log(error);
-        yield put(getAllStoresListFailure(error));
     }
 }
 
@@ -127,7 +107,7 @@ export function* onGetStoreDetailsStart() {
 export function* onSearchStoreForTermStart() {
     yield takeLatest(
         StoreActionTypes.SEARCH_STORES_FOR_TERM_START,
-        searchForStoreTerm
+        getAllStoresList
     );
 }
 
